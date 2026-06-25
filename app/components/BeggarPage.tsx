@@ -30,23 +30,7 @@ interface Entry {
   amount: number;
 }
 
-const SEED_DATA: Entry[] = [
-  { id: 1,  name: "王大明",        country: "🇹🇼 台灣",   amount: 2000 },
-  { id: 2,  name: "Sandra Lee",    country: "🇺🇸 美國",   amount: 1500 },
-  { id: 3,  name: "田中一郎",      country: "🇯🇵 日本",   amount: 1000 },
-  { id: 4,  name: "김민준",        country: "🇰🇷 韓國",   amount:  800 },
-  { id: 5,  name: "陳小美",        country: "🇹🇼 台灣",   amount:  600 },
-  { id: 6,  name: "Michael Chen",  country: "🇨🇦 加拿大", amount:  500 },
-  { id: 7,  name: "Anna Schmidt",  country: "🇩🇪 德國",   amount:  300 },
-  { id: 8,  name: "Sophie Martin", country: "🇫🇷 法國",   amount:  200 },
-  { id: 9,  name: "林大志",        country: "🇹🇼 台灣",   amount:  150 },
-  { id: 10, name: "Paulo Silva",   country: "🇧🇷 巴西",   amount:  100 },
-  { id: 11, name: "張三豐",        country: "🇹🇼 台灣",   amount:  100 },
-  { id: 12, name: "James Wright",  country: "🇬🇧 英國",   amount:   50 },
-  { id: 13, name: "好心人",        country: "🌍 地球",    amount:   50 },
-  { id: 14, name: "路人甲",        country: "🇹🇼 台灣",   amount:   30 },
-  { id: 15, name: "Anonymous",     country: "🌌 宇宙",    amount:   30 },
-];
+const SEED_DATA: Entry[] = [];
 
 function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) return <span className="text-base leading-none">🥇</span>;
@@ -283,6 +267,11 @@ export default function BeggarPage() {
               <p className="text-xs text-amber-400 mt-0.5">前 100 名・按金額排序</p>
             </div>
             <ul className="overflow-y-auto divide-y divide-amber-50" style={{ maxHeight: "calc(100vh - 220px)" }}>
+              {entries.length === 0 && (
+                <li className="px-4 py-8 text-center text-sm text-amber-400">
+                  還沒有人捐款<br />成為第一個恩人吧！🙏
+                </li>
+              )}
               {entries.map((entry, idx) => {
                 const rank  = idx + 1;
                 const isNew = entry.id === newEntryId;

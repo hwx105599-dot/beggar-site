@@ -10,7 +10,7 @@ const notoSansTC = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-  title: "🥣 網路乞丐 — 投我 30 元謝謝",
+  title: "🥣 網路乞丐",
   description:
     "行行好，贊助一下手民工程師。每投一次，快樂多一點（我的快樂）",
 };
