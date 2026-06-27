@@ -21,6 +21,15 @@ nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid
 .loginBox{max-width:520px;margin:26px auto}.logoutBar{position:fixed;right:8px;top:8px;z-index:30}.downloadBox{padding:14px}.detailBox{display:none;border-top:1px solid #e5e7eb;margin-top:10px;padding-top:10px}.detailBox.show{display:block}
 @media(max-width:760px){.grid2{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(2,1fr)}.listrow{display:block}.navin{grid-template-columns:repeat(5,1fr)}.wrap,.app{padding-left:12px;padding-right:12px}h1{font-size:26px}}
 </style>
+
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0f766e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="我的旅行">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="/icon-192.png">
+
 </head>
 <body>
 <div class="wrap">
@@ -275,5 +284,14 @@ function bindButtons(){$("createTripBtn").onclick=createTrip;$("reloadTripsBtn")
 async function init(){bindTabs();bindButtons();bindImages();await run("讀取旅程",loadTrips)}
 init();
 </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+
 </body>
 </html>
