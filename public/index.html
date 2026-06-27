@@ -27,8 +27,8 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .panel{display:none}.panel.active{display:block}.thumb{width:90px;height:62px;object-fit:cover;border-radius:8px;background:#edf2f7}.listrow{display:flex;gap:12px;align-items:center;justify-content:space-between}.listleft{display:flex;gap:12px;align-items:center}.switch{width:auto;margin-right:6px}.warn{background:#fff7ed;color:#9a3412;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
-.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}</style></head><body>
-<div class="app"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}</style></head><body>
+<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL = "https://ovprxrcvclejwjytvfra.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cHJ4cmN2Y2xlandqeXR2ZnJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDUyODksImV4cCI6MjA5ODEyMTI4OX0.i72mbwna6qTR0nvDybeVqZmBgtpC_BAYaEwHaqjWKzg";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -38,16 +38,33 @@ function $(id){return document.getElementById(id)}
 function esc(s){return String(s||"").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 function attr(s){return esc(s)}
 function getSlug(){return new URLSearchParams(location.search).get("trip")||""}
+function getAccessCode(){return sessionStorage.getItem("trip_access_code")||new URLSearchParams(location.search).get("code")||""}
 async function loadCloudData(){
   const slug=getSlug();
-  let tripQuery=sb.from("trips").select("*");
-  if(slug) tripQuery=tripQuery.eq("slug",slug).maybeSingle();
-  else tripQuery=tripQuery.eq("public_enabled",true).order("created_at",{ascending:false}).limit(1).maybeSingle();
-  const tripRes=await tripQuery;
+  const code=getAccessCode();
+  let tripRes;
+  if(slug){
+    tripRes=await sb.from("trips").select("*").eq("slug",slug).maybeSingle();
+  }else{
+    if(!code){
+      DATA={trip:{title:"",dates:"",hotel:""},days:[],foods:[]};
+      return;
+    }
+    tripRes=await sb.from("trips").select("*").eq("access_code",code).maybeSingle();
+  }
   if(tripRes.error) throw tripRes.error;
   const trip=tripRes.data;
-  if(!trip){DATA={trip:{title:"找不到旅程",dates:"",hotel:"目前沒有公開旅程。",public_enabled:false,status:"missing"},days:[],foods:[]};return}
-  if(!trip.public_enabled){DATA={trip:{title:trip.name||"旅程未開放",dates:"",hotel:"這趟旅程目前未開放觀看。",public_enabled:false,status:trip.status},days:[],foods:[]};return}
+  if(!trip){DATA={trip:{title:"找不到旅程",dates:"",hotel:"密碼錯誤或旅程不存在。",blocked:true},days:[],foods:[]};return}
+  const now=new Date();
+  if(!trip.public_enabled || trip.status==="closed" || trip.status==="ended"){
+    DATA={trip:{title:trip.name||"旅程未開放",dates:"",hotel:"這趟旅程目前未開放觀看。",blocked:true},days:[],foods:[]};return;
+  }
+  if(trip.open_at && now < new Date(trip.open_at)){
+    DATA={trip:{title:trip.name||"尚未開放",dates:"",hotel:"這趟旅程還沒到開放時間。",blocked:true},days:[],foods:[]};return;
+  }
+  if(trip.close_at && now > new Date(trip.close_at)){
+    DATA={trip:{title:trip.name||"旅程已結束",dates:"",hotel:"這趟旅程已超過開放時間。",blocked:true},days:[],foods:[]};return;
+  }
   const siteRes=await sb.from("trip_site_settings").select("*").eq("trip_id",trip.id).maybeSingle();
   const daysRes=await sb.from("trip_days").select("*").eq("trip_id",trip.id).order("date").order("day_order");
   const itemsRes=await sb.from("trip_itinerary_items").select("*").eq("trip_id",trip.id).order("item_order");
@@ -79,6 +96,35 @@ function showModal(){$("modalMask").classList.add("active");document.body.style.
 function hideModal(){$("modalMask").classList.remove("active");document.body.style.overflow=""}
 function openNav(query){ const q=encodeURIComponent(query||""); if(!q)return; const provider=(DATA.trip&&DATA.trip.mapProvider)||"amap"; const url=provider==="google"?"https://www.google.com/maps/search/?api=1&query="+q:"https://uri.amap.com/search?keyword="+q; window.open(url,"_blank"); }
 function bindTabs(){ document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(t.dataset.screen).classList.add("active");scrollTo(0,0)}}); }
-async function init(){ bindTabs(); $("modalMask").addEventListener("click",e=>{if(e.target.id==="modalMask")hideModal()}); $("closeBtn").onclick=hideModal; try{ await loadCloudData(); renderAll(); }catch(e){ console.error(e); $("tripTitle").textContent="雲端讀取失敗"; alert("雲端讀取失敗：" + (e.message||JSON.stringify(e))); } }
+async function openByCode(){
+  const code=$("accessCodeInput").value.trim();
+  if(!code){$("loginMsg").style.display="block";$("loginMsg").textContent="請輸入旅程密碼";return}
+  sessionStorage.setItem("trip_access_code",code);
+  await loadAndRender();
+}
+async function loadAndRender(){
+  try{
+    await loadCloudData();
+    if(DATA.trip.blocked){
+      $("loginBox").style.display="block";$("app").style.display="none";
+      $("loginMsg").style.display="block";$("loginMsg").textContent=DATA.trip.hotel||"無法開啟旅程";
+      return;
+    }
+    $("loginBox").style.display="none";$("app").style.display="block";
+    renderAll();
+  }catch(e){
+    console.error(e);
+    $("loginBox").style.display="block";$("app").style.display="none";
+    $("loginMsg").style.display="block";$("loginMsg").textContent="雲端讀取失敗：" + (e.message||JSON.stringify(e));
+  }
+}
+async function init(){
+  bindTabs();
+  $("modalMask").addEventListener("click",e=>{if(e.target.id==="modalMask")hideModal()});
+  $("closeBtn").onclick=hideModal;
+  $("accessBtn").onclick=openByCode;
+  $("accessCodeInput").addEventListener("keydown",e=>{if(e.key==="Enter")openByCode()});
+  if(getSlug() || getAccessCode()) await loadAndRender();
+}
 init();
 </script></body></html>
