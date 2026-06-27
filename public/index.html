@@ -163,10 +163,7 @@ async function saveFeedback(targetType,targetId,rating,note,liked,disliked){
   await loadCloudData();
   alert("心得已儲存。");
 }
-function logoutTrip(){
-  localStorage.removeItem("trip_access_code");
-  location.reload();
-}
+function logoutTrip(){localStorage.removeItem("trip_access_code");location.reload()}
 function downloadTripRecord(){
   const exportData = JSON.parse(JSON.stringify({
     trip: DATA.trip || {},
@@ -265,13 +262,64 @@ render();
   URL.revokeObjectURL(a.href);
 }
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+async function openByCode(){
+  const code=$("accessCodeInput").value.trim();
+  if(!code){
+    $("loginMsg").style.display="block";
+    $("loginMsg").textContent="請輸入旅程密碼";
+    return;
+  }
+  localStorage.setItem("trip_access_code",code);
+  await loadAndRender();
+}
+
+async function loadAndRender(){
+  try{
+    await loadCloudData();
+    if(DATA.trip && DATA.trip.blocked){
+      $("loginBox").style.display="block";
+      $("app").style.display="none";
+      if($("logoutBar"))$("logoutBar").style.display="none";
+      $("loginMsg").style.display="block";
+      $("loginMsg").textContent=DATA.trip.hotel || "無法開啟旅程，請確認密碼或開放時間。";
+      return;
+    }
+    if(!DATA.trip || !DATA.trip.id){
+      $("loginBox").style.display="block";
+      $("app").style.display="none";
+      if($("logoutBar"))$("logoutBar").style.display="none";
+      return;
+    }
+    $("loginBox").style.display="none";
+    $("app").style.display="block";
+    if($("logoutBar"))$("logoutBar").style.display="block";
+    if($("loginMsg"))$("loginMsg").style.display="none";
+    renderAll();
+    bindFeedbackBox();
+  }catch(e){
+    console.error("loadAndRender failed", e);
+    $("loginBox").style.display="block";
+    $("app").style.display="none";
+    if($("logoutBar"))$("logoutBar").style.display="none";
+    $("loginMsg").style.display="block";
+    $("loginMsg").textContent="雲端讀取失敗：" + (e.message || JSON.stringify(e));
+  }
+}
+
 async function init(){
   bindTabs();
   $("modalMask").addEventListener("click",e=>{if(e.target.id==="modalMask")hideModal()});
   $("closeBtn").onclick=hideModal;
-  $("accessBtn").onclick=openByCode;if($("logoutBtn"))$("logoutBtn").onclick=logoutTrip;if($("downloadTripBtn"))$("downloadTripBtn").onclick=downloadTripRecord;
+  $("accessBtn").onclick=openByCode;
   $("accessCodeInput").addEventListener("keydown",e=>{if(e.key==="Enter")openByCode()});
-  if(getSlug() || getAccessCode()) await loadAndRender();
+  if($("logoutBtn"))$("logoutBtn").onclick=logoutTrip;
+  if($("downloadTripBtn"))$("downloadTripBtn").onclick=downloadTripRecord;
+
+  const savedCode=getAccessCode();
+  if(savedCode){
+    $("accessCodeInput").value=savedCode;
+    await loadAndRender();
+  }
 }
 init();
 </script></body></html>
