@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trip-pwa-v30';
+const CACHE_NAME = 'trip-pwa-v31';
 const ASSETS = ['/', '/index.html', '/admin.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', (event) => {
