@@ -1,0 +1,79 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>我的旅行</title><style>
+:root{--p:#0f766e;--bg:#f4f7f7;--text:#1f2937;--muted:#667085;--line:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;color:var(--text)}
+.app,.wrap{max-width:860px;margin:auto;padding-bottom:88px}.wrap{padding:18px}.hero{height:280px;background-size:cover;background-position:center;background-color:#0f766e;position:relative}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.heroText{position:absolute;z-index:1;left:20px;right:20px;bottom:22px;color:white}.heroText h1{margin:0 0 6px;font-size:29px}
+main{padding:14px}.card{background:white;border-radius:18px;box-shadow:0 4px 18px rgba(15,23,42,.06);overflow:hidden;margin-bottom:14px}
+.card img{width:100%;height:220px;object-fit:cover;background:#edf2f7}.content{padding:15px}.time{font-weight:800;color:var(--p);font-size:14px}.title{font-size:20px;margin:3px 0 8px}
+.badge{display:inline-block;background:#e7f8f5;color:var(--p);padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.brief,.muted{color:var(--muted);font-size:14px;line-height:1.55}.actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+button,.btn{border:0;border-radius:11px;padding:10px 12px;font-weight:700;cursor:pointer}.primary{background:var(--p);color:white}.soft{background:#eef7f6;color:var(--p)}.danger{background:#fee4e2;color:#b42318}.gray{background:#f2f4f7;color:#344054}.orange{background:#fff7ed;color:#9a3412}
+.daybar{display:flex;gap:8px;overflow:auto;padding:4px 0 12px}.day{border:0;background:white;border-radius:13px;padding:10px 13px;white-space:nowrap;font-weight:700;color:var(--muted);box-shadow:0 2px 10px rgba(15,23,42,.04)}.day.active{background:var(--p);color:white}
+.sectionTitle{font-size:21px;margin:14px 3px 10px}.foodGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.food img{height:140px}.food .title{font-size:17px}
+.topCards{display:grid;gap:12px}.flightCard img{height:auto}.hotel{font-size:14px;color:var(--muted);line-height:1.6}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:9}
+.navin{max-width:860px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr)}.tab{border:0;background:none;padding:8px;color:var(--muted);font-weight:700}.tab.active{color:var(--p)}
+.screen{display:none}.screen.active{display:block}.empty{padding:18px;color:var(--muted)}
+.modalMask{position:fixed;inset:0;background:rgba(15,23,42,.58);z-index:99;display:none;align-items:flex-end;justify-content:center}
+.modalMask.active{display:flex}.modal{background:white;width:min(860px,100%);max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.22)}
+.modal img{width:100%;height:260px;object-fit:cover;background:#edf2f7}.modalContent{padding:16px 16px 28px}.modalHeader{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.close{background:#f2f4f7;color:#344054;border:0;border-radius:999px;padding:8px 11px;font-weight:900}
+.info{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.info b{display:block;margin-bottom:4px}.info p{margin:0;color:var(--muted);line-height:1.6;font-size:14px}
+input,textarea,select{width:100%;box-sizing:border-box;border:1px solid #d0d5dd;border-radius:10px;padding:10px;margin:5px 0 10px;font:inherit}textarea{min-height:82px}
+label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-top:8px}.done{color:#067647;font-weight:800}
+.preview{width:100%;max-height:260px;object-fit:cover;border-radius:12px;background:#edf2f7;margin:8px 0;display:none}.pick{display:inline-flex;align-items:center;justify-content:center;border:2px dashed #99d6cc;color:#0f766e;background:#f0fdfa;border-radius:14px;height:76px;font-weight:900;font-size:16px;cursor:pointer;width:100%;text-align:center}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}.adminTab{background:white;color:#667085}.adminTab.active{background:#0f766e;color:white}
+.panel{display:none}.panel.active{display:block}.thumb{width:90px;height:62px;object-fit:cover;border-radius:8px;background:#edf2f7}.listrow{display:flex;gap:12px;align-items:center;justify-content:space-between}.listleft{display:flex;gap:12px;align-items:center}.switch{width:auto;margin-right:6px}.warn{background:#fff7ed;color:#9a3412;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}
+.success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}
+@media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
+</style></head><body>
+<div class="app"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://ovprxrcvclejwjytvfra.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cHJ4cmN2Y2xlandqeXR2ZnJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDUyODksImV4cCI6MjA5ODEyMTI4OX0.i72mbwna6qTR0nvDybeVqZmBgtpC_BAYaEwHaqjWKzg";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let DATA = {trip:{},days:[],foods:[]};
+let selectedDay = 0;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s||"").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+function attr(s){return esc(s)}
+function getSlug(){return new URLSearchParams(location.search).get("trip")||""}
+async function loadCloudData(){
+  const slug=getSlug();
+  let tripQuery=sb.from("trips").select("*");
+  if(slug) tripQuery=tripQuery.eq("slug",slug).maybeSingle();
+  else tripQuery=tripQuery.eq("public_enabled",true).order("created_at",{ascending:false}).limit(1).maybeSingle();
+  const tripRes=await tripQuery;
+  if(tripRes.error) throw tripRes.error;
+  const trip=tripRes.data;
+  if(!trip){DATA={trip:{title:"找不到旅程",dates:"",hotel:"目前沒有公開旅程。",public_enabled:false,status:"missing"},days:[],foods:[]};return}
+  if(!trip.public_enabled){DATA={trip:{title:trip.name||"旅程未開放",dates:"",hotel:"這趟旅程目前未開放觀看。",public_enabled:false,status:trip.status},days:[],foods:[]};return}
+  const siteRes=await sb.from("trip_site_settings").select("*").eq("trip_id",trip.id).maybeSingle();
+  const daysRes=await sb.from("trip_days").select("*").eq("trip_id",trip.id).order("date").order("day_order");
+  const itemsRes=await sb.from("trip_itinerary_items").select("*").eq("trip_id",trip.id).order("item_order");
+  const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",trip.id).order("food_order");
+  const site=siteRes.data||{};
+  const days=(daysRes.data||[]).map(d=>({...d,items:[]}));
+  const byId=Object.fromEntries(days.map(d=>[d.id,d]));
+  (itemsRes.data||[]).forEach(x=>{if(byId[x.day_id])byId[x.day_id].items.push(x)});
+  DATA={
+    trip:{id:trip.id,slug:trip.slug,name:trip.name,status:trip.status,public_enabled:trip.public_enabled,title:site.title||trip.name,dates:site.dates||"",hotel:site.hotel||"",hotelAddress:site.hotel_address||"",hotelNavEnabled:site.hotel_nav_enabled!==false,mapProvider:site.map_provider||"amap",hero:site.hero_image||"",hotelImage:site.hotel_image||"",flightOut:{time:site.flight_out_time||"",route:site.flight_out_route||"",image:site.flight_out_image||""},flightBack:{time:site.flight_back_time||"",route:site.flight_back_route||"",image:site.flight_back_image||""}},
+    days:days.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,story:x.story,food:x.food,navEnabled:x.nav_enabled,completed:x.completed}))})),
+    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,story:x.story,why:x.why,taste:x.taste,when:x.when_text}))
+  };
+}
+function renderAll(){ $("hero").style.backgroundImage=DATA.trip.hero?`url('${DATA.trip.hero}')`:""; $("tripTitle").textContent=DATA.trip.title||"我的旅行"; $("tripDates").textContent=DATA.trip.dates||""; renderHotelCard(); renderDays(); renderFoods(); renderInfo(); }
+function renderHotelCard(){ const wrap=$("hotelCard"); wrap.innerHTML=`${DATA.trip.hotelImage?`<img src="${DATA.trip.hotelImage}" alt="住宿圖片">`:""}<div class="content"><b>住宿</b><div id="hotel" class="hotel">${esc(DATA.trip.hotel||"")}</div><div id="hotelActions" class="actions"></div></div>`; if(DATA.trip.hotelNavEnabled!==false&&DATA.trip.hotel){ $("hotelActions").innerHTML='<button class="btn primary" id="hotelNavBtn">開啟導航</button>';$("hotelNavBtn").onclick=()=>openNav(DATA.trip.hotelAddress||DATA.trip.hotel); } }
+function renderDays(){ $("daybar").innerHTML=DATA.days.map((d,i)=>`<button class="day ${i===selectedDay?'active':''}" data-day="${i}">${esc(d.date)}<br><small>${esc(d.title)}</small></button>`).join(""); document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{selectedDay=Number(b.dataset.day);renderDays()}); const d=DATA.days[selectedDay]; if(!d){$("dayTitle").textContent="";$("planList").innerHTML='<div class="card"><div class="empty">目前尚未新增行程，或這趟旅程未開放觀看。</div></div>';return;} $("dayTitle").textContent=`${d.date}｜${d.title||"未命名行程"}`; $("planList").innerHTML=d.items.length?d.items.map((x,i)=>`<article class="card">${x.image?`<img src="${x.image}" alt="${attr(x.name)}">`:""}<div class="content"><div class="time">${esc(x.time)}</div><h3 class="title">${esc(x.name)}</h3><span class="badge">${esc(x.tag)}</span><div class="brief">${esc(makeBrief(x))}</div><div class="actions"><button class="btn soft introBtn" data-index="${i}">查看介紹</button>${x.navEnabled===false?"":`<button class="btn primary navBtn" data-address="${attr(x.address)}">開啟導航</button>`}</div></div></article>`).join(""):'<div class="card"><div class="empty">這一天尚未新增行程。</div></div>'; document.querySelectorAll(".introBtn").forEach(b=>b.onclick=()=>openPlace(selectedDay,Number(b.dataset.index))); document.querySelectorAll(".navBtn").forEach(b=>b.onclick=()=>openNav(b.dataset.address)); }
+function makeBrief(x){ if(x.food)return x.food; if(x.story)return x.story.slice(0,42)+(x.story.length>42?"...":""); return "點擊查看介紹。"; }
+function renderFoods(){ $("foodGrid").innerHTML=DATA.foods.length?DATA.foods.map((x,i)=>`<article class="card food">${x.image?`<img src="${x.image}" alt="${attr(x.name)}">`:""}<div class="content"><h3 class="title">${esc(x.name)}</h3><span class="badge">${esc(x.taste)}</span><div class="brief">${esc((x.story||x.why||"").slice(0,42))}${(x.story||x.why||"").length>42?"...":""}</div><div class="actions"><button class="btn soft foodIntroBtn" data-food="${i}">查看美食介紹</button></div></div></article>`).join(""):'<div class="card"><div class="empty">目前尚未新增美食。</div></div>'; document.querySelectorAll(".foodIntroBtn").forEach(b=>b.onclick=()=>openFood(Number(b.dataset.food))); }
+function renderInfo(){ $("infoList").innerHTML=`<div class="card flightCard">${DATA.trip.flightOut?.image?`<img src="${DATA.trip.flightOut.image}">`:""}<div class="content"><b>去程</b><p>${esc(DATA.trip.flightOut?.time)}<br>${esc(DATA.trip.flightOut?.route)}</p></div></div><div class="card flightCard">${DATA.trip.flightBack?.image?`<img src="${DATA.trip.flightBack.image}">`:""}<div class="content"><b>回程</b><p>${esc(DATA.trip.flightBack?.time)}<br>${esc(DATA.trip.flightBack?.route)}</p></div></div>`; }
+function openPlace(dayIndex,itemIndex){ const x=DATA.days[dayIndex].items[itemIndex]; $("modalImg").src=x.image||DATA.trip.hero||""; $("modalTime").textContent=x.time||""; $("modalTitle").textContent=x.name||""; $("modalTag").textContent=x.tag||""; $("modalStory").innerHTML=`<b>故事與特色</b><p>${esc(x.story||"尚未填寫介紹。")}</p>`; $("modalFood").innerHTML=x.food?`<b>推薦吃什麼</b><p>${esc(x.food)}</p>`:""; $("modalActions").innerHTML=""; if(x.navEnabled!==false){const btn=document.createElement("button");btn.className="btn primary";btn.textContent="開啟導航";btn.onclick=()=>openNav(x.address);$("modalActions").appendChild(btn)} showModal(); }
+function openFood(i){ const x=DATA.foods[i]; $("modalImg").src=x.image||DATA.trip.hero||""; $("modalTime").textContent=x.when||""; $("modalTitle").textContent=x.name||""; $("modalTag").textContent=x.taste||""; $("modalStory").innerHTML=`<b>美食特色</b><p>${esc(x.story||x.why||"尚未填寫介紹。")}</p>`; $("modalFood").innerHTML=`<b>適合時間</b><p>${esc(x.when||"")}</p>`; $("modalActions").innerHTML=""; showModal(); }
+function showModal(){$("modalMask").classList.add("active");document.body.style.overflow="hidden"}
+function hideModal(){$("modalMask").classList.remove("active");document.body.style.overflow=""}
+function openNav(query){ const q=encodeURIComponent(query||""); if(!q)return; const provider=(DATA.trip&&DATA.trip.mapProvider)||"amap"; const url=provider==="google"?"https://www.google.com/maps/search/?api=1&query="+q:"https://uri.amap.com/search?keyword="+q; window.open(url,"_blank"); }
+function bindTabs(){ document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(t.dataset.screen).classList.add("active");scrollTo(0,0)}}); }
+async function init(){ bindTabs(); $("modalMask").addEventListener("click",e=>{if(e.target.id==="modalMask")hideModal()}); $("closeBtn").onclick=hideModal; try{ await loadCloudData(); renderAll(); }catch(e){ console.error(e); $("tripTitle").textContent="雲端讀取失敗"; alert("雲端讀取失敗：" + (e.message||JSON.stringify(e))); } }
+init();
+</script></body></html>

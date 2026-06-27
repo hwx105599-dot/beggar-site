@@ -1,0 +1,154 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>旅行雲端管理版</title><style>
+:root{--p:#0f766e;--bg:#f4f7f7;--text:#1f2937;--muted:#667085;--line:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;color:var(--text)}
+.app,.wrap{max-width:860px;margin:auto;padding-bottom:88px}.wrap{padding:18px}.hero{height:280px;background-size:cover;background-position:center;background-color:#0f766e;position:relative}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.heroText{position:absolute;z-index:1;left:20px;right:20px;bottom:22px;color:white}.heroText h1{margin:0 0 6px;font-size:29px}
+main{padding:14px}.card{background:white;border-radius:18px;box-shadow:0 4px 18px rgba(15,23,42,.06);overflow:hidden;margin-bottom:14px}
+.card img{width:100%;height:220px;object-fit:cover;background:#edf2f7}.content{padding:15px}.time{font-weight:800;color:var(--p);font-size:14px}.title{font-size:20px;margin:3px 0 8px}
+.badge{display:inline-block;background:#e7f8f5;color:var(--p);padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.brief,.muted{color:var(--muted);font-size:14px;line-height:1.55}.actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+button,.btn{border:0;border-radius:11px;padding:10px 12px;font-weight:700;cursor:pointer}.primary{background:var(--p);color:white}.soft{background:#eef7f6;color:var(--p)}.danger{background:#fee4e2;color:#b42318}.gray{background:#f2f4f7;color:#344054}.orange{background:#fff7ed;color:#9a3412}
+.daybar{display:flex;gap:8px;overflow:auto;padding:4px 0 12px}.day{border:0;background:white;border-radius:13px;padding:10px 13px;white-space:nowrap;font-weight:700;color:var(--muted);box-shadow:0 2px 10px rgba(15,23,42,.04)}.day.active{background:var(--p);color:white}
+.sectionTitle{font-size:21px;margin:14px 3px 10px}.foodGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.food img{height:140px}.food .title{font-size:17px}
+.topCards{display:grid;gap:12px}.flightCard img{height:auto}.hotel{font-size:14px;color:var(--muted);line-height:1.6}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:9}
+.navin{max-width:860px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr)}.tab{border:0;background:none;padding:8px;color:var(--muted);font-weight:700}.tab.active{color:var(--p)}
+.screen{display:none}.screen.active{display:block}.empty{padding:18px;color:var(--muted)}
+.modalMask{position:fixed;inset:0;background:rgba(15,23,42,.58);z-index:99;display:none;align-items:flex-end;justify-content:center}
+.modalMask.active{display:flex}.modal{background:white;width:min(860px,100%);max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.22)}
+.modal img{width:100%;height:260px;object-fit:cover;background:#edf2f7}.modalContent{padding:16px 16px 28px}.modalHeader{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.close{background:#f2f4f7;color:#344054;border:0;border-radius:999px;padding:8px 11px;font-weight:900}
+.info{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.info b{display:block;margin-bottom:4px}.info p{margin:0;color:var(--muted);line-height:1.6;font-size:14px}
+input,textarea,select{width:100%;box-sizing:border-box;border:1px solid #d0d5dd;border-radius:10px;padding:10px;margin:5px 0 10px;font:inherit}textarea{min-height:82px}
+label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-top:8px}.done{color:#067647;font-weight:800}
+.preview{width:100%;max-height:260px;object-fit:cover;border-radius:12px;background:#edf2f7;margin:8px 0;display:none}.pick{display:inline-flex;align-items:center;justify-content:center;border:2px dashed #99d6cc;color:#0f766e;background:#f0fdfa;border-radius:14px;height:76px;font-weight:900;font-size:16px;cursor:pointer;width:100%;text-align:center}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}.adminTab{background:white;color:#667085}.adminTab.active{background:#0f766e;color:white}
+.panel{display:none}.panel.active{display:block}.thumb{width:90px;height:62px;object-fit:cover;border-radius:8px;background:#edf2f7}.listrow{display:flex;gap:12px;align-items:center;justify-content:space-between}.listleft{display:flex;gap:12px;align-items:center}.switch{width:auto;margin-right:6px}.warn{background:#fff7ed;color:#9a3412;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}
+.success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}.tripLink{word-break:break-all;max-height:42px;overflow:hidden}.tripCard{min-height:auto!important}.tripCard .listrow{align-items:flex-start}.copyOk{background:#ecfdf3;color:#067647}
+@media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<h1>旅行雲端管理版｜多旅程 v6</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div><div class="card"><div class="row"><button class="primary" id="publishTripBtn">儲存並開放觀看版</button><button class="orange" id="endTripBtn">結束旅程</button><button class="danger" id="closePublicBtn">關閉公開</button></div><div class="muted">按「儲存首頁住宿」會更新我的旅程列表；按「儲存並開放觀看版」後，使用者重新整理觀看版就會看到最新內容。</div></div>
+<div class="tabs"><button class="adminTab active" data-panel="trips">我的旅程</button><button class="adminTab" data-panel="site">首頁住宿</button><button class="adminTab" data-panel="days">每日行程</button><button class="adminTab" data-panel="foods">美食管理</button><button class="adminTab" data-panel="flights">航班資料</button></div>
+<section id="trips" class="panel active"><div class="card"><h2>建立新旅程</h2><div class="grid2"><div><label>旅程名稱</label><input id="newTripName" placeholder="例如：廈門旅行"></div><div><label>旅程代號</label><input id="newTripSlug" placeholder="例如：xiamen-20260711"></div></div><div class="grid2"><div><label>目的地</label><input id="newTripDestination"></div><div></div><div><label>開始日期</label><input id="newTripStart" type="date"></div><div><label>結束日期</label><input id="newTripEnd" type="date"></div></div><button class="primary" id="createTripBtn">＋ 建立新旅程</button><button class="soft" id="reloadTripsBtn">重新讀取旅程</button></div><div id="tripList"></div></section>
+<section id="site" class="panel"><div class="card"><h2>首頁與住宿</h2><label>網站標題</label><input id="tripTitle"><label>旅遊日期顯示</label><input id="tripDates"><label>住宿名稱／顯示文字</label><textarea id="tripHotel"></textarea><label>住宿導航地址</label><input id="tripHotelAddress"><label class="row"><input class="switch" id="hotelNavEnabled" type="checkbox">住宿顯示「開啟導航」</label><label>導航地圖</label><select id="mapProvider"><option value="amap">高德地圖</option><option value="google">Google 地圖</option></select><label>首頁大圖</label><label class="pick" for="heroFile">＋ 選擇首頁圖片</label><input id="heroFile" type="file" accept="image/*" style="display:none"><img id="heroPreview" class="preview"><label>住宿圖片</label><label class="pick" for="hotelFile">＋ 選擇住宿圖片</label><input id="hotelFile" type="file" accept="image/*" style="display:none"><img id="hotelPreview" class="preview"><button class="primary" id="saveSiteBtn">儲存首頁住宿</button></div></section>
+<section id="flights" class="panel"><div class="card"><h2>去程航班</h2><label>去程時間</label><input id="flightOutTime"><label>去程路線</label><input id="flightOutRoute"><label>去程圖片</label><label class="pick" for="flightOutFile">＋ 選擇去程圖片</label><input id="flightOutFile" type="file" accept="image/*" style="display:none"><img id="flightOutPreview" class="preview"></div><div class="card"><h2>回程航班</h2><label>回程時間</label><input id="flightBackTime"><label>回程路線</label><input id="flightBackRoute"><label>回程圖片</label><label class="pick" for="flightBackFile">＋ 選擇回程圖片</label><input id="flightBackFile" type="file" accept="image/*" style="display:none"><img id="flightBackPreview" class="preview"><button class="primary" id="saveFlightsBtn">儲存航班資料</button></div></section>
+<section id="days" class="panel"><div class="card"><h2>新增日期</h2><label>用日曆選日期</label><input id="newDayDate" type="date"><label>這一天標題</label><input id="newDayTitle"><button class="primary" id="addDayBtn">＋ 新增這一天</button></div><div class="card"><h2>每日行程</h2><label>選擇日期</label><select id="daySelect"></select><div id="emptyDaysNotice" class="warn" style="display:none">目前還沒有日期。</div><div class="grid2"><div><label>日期</label><input id="dayDate" type="date"></div><div><label>每日標題</label><input id="dayTitleInput"></div></div><div class="row"><button class="primary" id="saveDayMetaBtn">儲存日期標題</button><button class="danger" id="deleteDayBtn">刪除這一天</button><button class="soft" id="newItemBtn">＋ 新增行程</button></div></div><div id="editor" class="card" style="display:none"><h2>行程內容</h2><input type="hidden" id="editIndex"><div class="grid2"><div><label>時間</label><input id="time"></div><div><label>分類</label><input id="tag"></div></div><label>名稱</label><input id="name"><label>地址／導航搜尋字</label><input id="address"><label class="row"><input class="switch" id="navEnabled" type="checkbox">這個地點顯示「開啟導航」</label><label>圖片</label><label class="pick" for="imageFile">＋ 選擇行程圖片</label><input id="imageFile" type="file" accept="image/*" style="display:none"><img id="preview" class="preview"><input type="hidden" id="image"><label>故事與特色</label><textarea id="story"></textarea><label>推薦吃什麼</label><textarea id="food"></textarea><div class="row"><button class="primary" id="saveItemBtn">儲存行程</button><button class="soft" id="cancelEditBtn">取消</button></div></div><div id="list"></div></section>
+<section id="foods" class="panel"><div class="card"><h2>美食管理</h2><button class="primary" id="newFoodBtn">＋ 新增美食</button></div><div id="foodEditor" class="card" style="display:none"><h2>美食內容</h2><input type="hidden" id="foodIndex"><label>美食名稱</label><input id="foodName"><div class="grid2"><div><label>口味</label><input id="foodTaste"></div><div><label>適合時間</label><input id="foodWhen"></div></div><label>圖片</label><label class="pick" for="foodFile">＋ 選擇美食圖片</label><input id="foodFile" type="file" accept="image/*" style="display:none"><img id="foodPreview" class="preview"><input type="hidden" id="foodImage"><label>美食特色</label><textarea id="foodStory"></textarea><label>為什麼推薦</label><textarea id="foodWhy"></textarea><div class="row"><button class="primary" id="saveFoodBtn">儲存美食</button><button class="soft" id="cancelFoodBtn">取消</button></div></div><div id="foodList"></div></section>
+</div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://ovprxrcvclejwjytvfra.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cHJ4cmN2Y2xlandqeXR2ZnJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDUyODksImV4cCI6MjA5ODEyMTI4OX0.i72mbwna6qTR0nvDybeVqZmBgtpC_BAYaEwHaqjWKzg";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let TRIPS=[], CURRENT_TRIP=null, DATA={trip:{},days:[],foods:[]};
+function $(id){return document.getElementById(id)}
+function publicLink(slug){
+  const q = "index.html?trip=" + encodeURIComponent(slug);
+  if(location.protocol==="http:" || location.protocol==="https:"){
+    return location.href.replace(/admin\.html.*$/, q);
+  }
+  return q;
+}
+async function uploadFile(file, folder){const cleanName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const path=`${folder}/${Date.now()}-${cleanName}`;const up=await sb.storage.from("trip-images").upload(path,file,{cacheControl:"3600",upsert:false,contentType:file.type||"image/jpeg"});if(up.error){alert("圖片上傳失敗："+up.error.message);throw up.error}return sb.storage.from("trip-images").getPublicUrl(path).data.publicUrl}
+function bindFile(fileId, previewId, cb){$(fileId).addEventListener("change",async()=>{const file=$(fileId).files[0];if(!file)return;const url=await uploadFile(file,fileId);$(previewId).src=url;$(previewId).style.display="block";cb(url);alert("圖片已上傳，記得按儲存。")})}
+async function loadTrips(){const r=await sb.from("trips").select("*").order("created_at",{ascending:false});if(r.error)throw r.error;TRIPS=r.data||[];renderTrips();if(!CURRENT_TRIP&&TRIPS[0])await selectTrip(TRIPS[0].id)}
+function copyTripLink(slug){
+  const link=publicLink(slug);
+  navigator.clipboard?.writeText(link).then(()=>alert("已複製觀看連結："+link)).catch(()=>prompt("複製這個觀看連結", link));
+}
+function renderTrips(){$("tripList").innerHTML=TRIPS.map(t=>`<div class="card item tripCard"><div class="listrow"><div><b>${t.name}</b> <span class="status">${t.status}</span> <span class="status">${t.public_enabled?'公開':'關閉'}</span><div class="muted">代號：${t.slug}｜${t.start_date||''}－${t.end_date||''}</div><div class="muted tripLink">觀看連結：${publicLink(t.slug)}</div></div><div class="row"><button class="soft" data-select="${t.id}">管理</button><button class="soft" data-copy="${t.slug}">複製連結</button><button class="primary" data-open="${t.id}">開放</button><button class="orange" data-end="${t.id}">結束旅程</button><button class="danger" data-close="${t.id}">關閉公開</button><button class="danger" data-delete-trip="${t.id}">刪除</button></div></div></div>`).join("")||'<div class="card"><div class="empty">尚未建立旅程。</div></div>';document.querySelectorAll("[data-select]").forEach(b=>b.onclick=()=>selectTrip(b.dataset.select));document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copyTripLink(b.dataset.copy));document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>setTripStatus(b.dataset.open,"active",true));document.querySelectorAll("[data-end]").forEach(b=>b.onclick=()=>setTripStatus(b.dataset.end,"ended",false));document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>setTripStatus(b.dataset.close,"closed",false));document.querySelectorAll("[data-delete-trip]").forEach(b=>b.onclick=()=>deleteTrip(b.dataset.deleteTrip))}
+async function deleteTrip(id){
+  const trip=TRIPS.find(t=>t.id===id);
+  const name=trip?trip.name:"這趟旅程";
+  if(!confirm("確定要刪除「"+name+"」？\n\n刪除後首頁、住宿、日期、行程、美食都會一起刪掉，無法復原。"))return;
+  if(!confirm("最後確認：真的要永久刪除「"+name+"」嗎？"))return;
+  const r=await sb.from("trips").delete().eq("id",id);
+  if(r.error){alert("刪除失敗："+r.error.message);throw r.error}
+  if(CURRENT_TRIP&&CURRENT_TRIP.id===id){CURRENT_TRIP=null;DATA={trip:{},days:[],foods:[]};$("currentTripTitle").textContent="尚未選擇旅程";}
+  await loadTrips();
+  alert("已刪除旅程");
+}
+async function createTrip(){const name=$("newTripName").value.trim();if(!name)return alert("請輸入旅程名稱");const slug=$("newTripSlug").value.trim()||name.toLowerCase().replace(/\s+/g,"-")+"-"+Date.now();const r=await sb.from("trips").insert({name,slug,destination:$("newTripDestination").value,start_date:$("newTripStart").value||null,end_date:$("newTripEnd").value||null,status:"draft",public_enabled:false}).select().single();if(r.error)throw r.error;await sb.from("trip_site_settings").insert({trip_id:r.data.id,title:name,dates:(($("newTripStart").value||"")+"－"+($("newTripEnd").value||"")),map_provider:"amap",hotel_nav_enabled:true});$("newTripName").value="";$("newTripSlug").value="";await loadTrips();await selectTrip(r.data.id);alert("新旅程已建立")}
+async function setTripStatus(id,status,public_enabled){const r=await sb.from("trips").update({status,public_enabled}).eq("id",id);if(r.error)throw r.error;await loadTrips();if(CURRENT_TRIP&&CURRENT_TRIP.id===id){CURRENT_TRIP={...CURRENT_TRIP,status,public_enabled};$("currentTripTitle").textContent=`目前管理：${CURRENT_TRIP.name}（${status}／${public_enabled?'公開':'關閉'}）`;}}
+async function publishTrip(){
+  if(!CURRENT_TRIP)return alert("請先選擇旅程");
+  await saveSite(false);
+  await saveFlights(false);
+  await setTripStatus(CURRENT_TRIP.id,"active",true);
+  await loadTrips();
+  await selectTrip(CURRENT_TRIP.id);
+  alert("已儲存並開放觀看版。使用者重新整理觀看版即可看到。");
+}
+async function endTrip(){if(!CURRENT_TRIP)return alert("請先選擇旅程");if(!confirm("確定結束旅程並關閉公開？舊連結將看不到內容。"))return;await setTripStatus(CURRENT_TRIP.id,"ended",false);alert("這趟旅程已結束並關閉公開。")}
+async function closePublic(){if(!CURRENT_TRIP)return alert("請先選擇旅程");await setTripStatus(CURRENT_TRIP.id,"closed",false);alert("已關閉公開觀看。")}
+async function selectTrip(id){CURRENT_TRIP=TRIPS.find(t=>t.id===id);$("currentTripTitle").textContent=CURRENT_TRIP?`目前管理：${CURRENT_TRIP.name}（${CURRENT_TRIP.status}／${CURRENT_TRIP.public_enabled?'公開':'關閉'}）`:"尚未選擇旅程";await refreshTripData()}
+async function refreshTripData(){if(!CURRENT_TRIP)return;const siteRes=await sb.from("trip_site_settings").select("*").eq("trip_id",CURRENT_TRIP.id).maybeSingle();const daysRes=await sb.from("trip_days").select("*").eq("trip_id",CURRENT_TRIP.id).order("date").order("day_order");const itemsRes=await sb.from("trip_itinerary_items").select("*").eq("trip_id",CURRENT_TRIP.id).order("item_order");const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",CURRENT_TRIP.id).order("food_order");const site=siteRes.data||{};const days=(daysRes.data||[]).map(d=>({...d,items:[]}));const byId=Object.fromEntries(days.map(d=>[d.id,d]));(itemsRes.data||[]).forEach(x=>{if(byId[x.day_id])byId[x.day_id].items.push(x)});DATA={trip:{title:site.title||CURRENT_TRIP.name,dates:site.dates||"",hotel:site.hotel||"",hotelAddress:site.hotel_address||"",hotelNavEnabled:site.hotel_nav_enabled!==false,mapProvider:site.map_provider||"amap",hero:site.hero_image||"",hotelImage:site.hotel_image||"",flightOut:{time:site.flight_out_time||"",route:site.flight_out_route||"",image:site.flight_out_image||""},flightBack:{time:site.flight_back_time||"",route:site.flight_back_route||"",image:site.flight_back_image||""}},days:days.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,story:x.story,food:x.food,navEnabled:x.nav_enabled,completed:x.completed}))})),foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,story:x.story,why:x.why,taste:x.taste,when:x.when_text}))};fillAll()}
+function fillAll(){fillSite();fillFlights();populateDaySelect();loadDayMeta();renderList();renderFoodList()}
+function fillSite(){$("tripTitle").value=DATA.trip.title||"";$("tripDates").value=DATA.trip.dates||"";$("tripHotel").value=DATA.trip.hotel||"";$("tripHotelAddress").value=DATA.trip.hotelAddress||"";$("hotelNavEnabled").checked=DATA.trip.hotelNavEnabled!==false;$("mapProvider").value=DATA.trip.mapProvider||"amap";if(DATA.trip.hero){$("heroPreview").src=DATA.trip.hero;$("heroPreview").style.display="block"}if(DATA.trip.hotelImage){$("hotelPreview").src=DATA.trip.hotelImage;$("hotelPreview").style.display="block"}}
+function fillFlights(){$("flightOutTime").value=DATA.trip.flightOut?.time||"";$("flightOutRoute").value=DATA.trip.flightOut?.route||"";$("flightBackTime").value=DATA.trip.flightBack?.time||"";$("flightBackRoute").value=DATA.trip.flightBack?.route||"";if(DATA.trip.flightOut?.image){$("flightOutPreview").src=DATA.trip.flightOut.image;$("flightOutPreview").style.display="block"}if(DATA.trip.flightBack?.image){$("flightBackPreview").src=DATA.trip.flightBack.image;$("flightBackPreview").style.display="block"}}
+async function saveSite(show=true){
+  if(!CURRENT_TRIP)return alert("請先選擇旅程");
+  const titleVal=$("tripTitle").value || CURRENT_TRIP.name;
+  const datesVal=$("tripDates").value || "";
+  const r=await sb.from("trip_site_settings").upsert({
+    trip_id:CURRENT_TRIP.id,
+    title:titleVal,
+    dates:datesVal,
+    hotel:$("tripHotel").value,
+    hotel_address:$("tripHotelAddress").value,
+    hotel_nav_enabled:$("hotelNavEnabled").checked,
+    map_provider:$("mapProvider").value,
+    hero_image:DATA.trip.hero||"",
+    hotel_image:DATA.trip.hotelImage||""
+  },{onConflict:"trip_id"});
+  if(r.error)throw r.error;
+
+  const tripUpdate={name:titleVal};
+  const parts=datesVal.split("－");
+  if(parts[0] && /^\d{4}-\d{2}-\d{2}$/.test(parts[0].trim())) tripUpdate.start_date=parts[0].trim();
+  if(parts[1] && /^\d{4}-\d{2}-\d{2}$/.test(parts[1].trim())) tripUpdate.end_date=parts[1].trim();
+  const tr=await sb.from("trips").update(tripUpdate).eq("id",CURRENT_TRIP.id).select().single();
+  if(tr.error)throw tr.error;
+  CURRENT_TRIP=tr.data;
+
+  await loadTrips();
+  await selectTrip(CURRENT_TRIP.id);
+  if(show)alert("已儲存。我的旅程列表與觀看版都會更新，觀看版重新整理即可看到。");
+}
+async function saveFlights(show=true){
+  if(!CURRENT_TRIP)return alert("請先選擇旅程");
+  const r=await sb.from("trip_site_settings").upsert({
+    trip_id:CURRENT_TRIP.id,
+    flight_out_time:$("flightOutTime").value,
+    flight_out_route:$("flightOutRoute").value,
+    flight_out_image:DATA.trip.flightOut.image||"",
+    flight_back_time:$("flightBackTime").value,
+    flight_back_route:$("flightBackRoute").value,
+    flight_back_image:DATA.trip.flightBack.image||""
+  },{onConflict:"trip_id"});
+  if(r.error)throw r.error;
+  await refreshTripData();
+  if(show)alert("航班已儲存，觀看版重新整理即可看到。");
+}
+function populateDaySelect(){$("daySelect").innerHTML=DATA.days.map((d,i)=>`<option value="${i}">${d.date}｜${d.title||"未命名"}</option>`).join("");$("emptyDaysNotice").style.display=DATA.days.length?"none":"block"}
+function currentDay(){return DATA.days[Number($("daySelect").value)]}
+function loadDayMeta(){const d=currentDay();$("dayDate").value=d?d.date:"";$("dayTitleInput").value=d?(d.title||""):""}
+async function addDay(){if(!CURRENT_TRIP)return alert("請先選擇旅程");const date=$("newDayDate").value;if(!date)return alert("請選日期");const r=await sb.from("trip_days").insert({trip_id:CURRENT_TRIP.id,day_order:DATA.days.length,date,title:$("newDayTitle").value||"未命名行程"});if(r.error)throw r.error;await refreshTripData()}
+async function saveDayMeta(){const d=currentDay();if(!d)return alert("沒有日期");const r=await sb.from("trip_days").update({date:$("dayDate").value,title:$("dayTitleInput").value}).eq("id",d.id);if(r.error)throw r.error;await refreshTripData();alert("日期已儲存，觀看版重新整理即可看到。")}
+async function deleteDay(){const d=currentDay();if(!d)return;if(!confirm("刪除這一天？"))return;const r=await sb.from("trip_days").delete().eq("id",d.id);if(r.error)throw r.error;await refreshTripData()}
+function renderList(){const d=currentDay();if(!d){$("list").innerHTML="";return}$("list").innerHTML=d.items.map((x,i)=>`<div class="card item"><div class="listrow"><div class="listleft">${x.image?`<img class="thumb" src="${x.image}">`:""}<div><b>${x.time||""}　${x.name||""}</b> ${x.completed?'<span class="done">✓ 已完成</span>':''}<div class="muted">${x.tag||""}｜${x.navEnabled===false?'導航關閉':'導航開啟'}｜${x.address||'未填地址'}</div></div></div><div class="row"><button class="soft" data-edit="${i}">編輯</button><button class="danger" data-del="${i}">刪除</button><button class="primary" data-complete="${i}">${x.completed?'取消完成':'完成'}</button></div></div></div>`).join("");document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editItem(Number(b.dataset.edit)));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteItem(Number(b.dataset.del)));document.querySelectorAll("[data-complete]").forEach(b=>b.onclick=()=>completeItem(Number(b.dataset.complete)))}
+function editItem(i){const x=currentDay().items[i];$("editIndex").value=i;["time","name","address","tag","story","food"].forEach(k=>$(k).value=x[k]||"");$("navEnabled").checked=x.navEnabled!==false;$("image").value=x.image||"";if(x.image){$("preview").src=x.image;$("preview").style.display="block"}$("editor").style.display="block"}
+function newItem(){if(!currentDay())return alert("請先新增日期");$("editIndex").value="";["time","name","address","tag","story","food"].forEach(k=>$(k).value="");$("navEnabled").checked=true;$("image").value="";$("preview").style.display="none";$("editor").style.display="block"}
+async function saveItem(){const d=currentDay();if(!d)return;const payload={trip_id:CURRENT_TRIP.id,day_id:d.id,item_order:d.items.length,time:$("time").value,name:$("name").value,address:$("address").value,tag:$("tag").value,image:$("image").value,story:$("story").value,food:$("food").value,nav_enabled:$("navEnabled").checked};let r;if($("editIndex").value==="")r=await sb.from("trip_itinerary_items").insert(payload);else{const old=d.items[Number($("editIndex").value)];r=await sb.from("trip_itinerary_items").update(payload).eq("id",old.id)}if(r.error)throw r.error;$("editor").style.display="none";await refreshTripData();alert("行程已儲存，觀看版重新整理即可看到。")}
+async function deleteItem(i){if(!confirm("刪除行程？"))return;const old=currentDay().items[i];const r=await sb.from("trip_itinerary_items").delete().eq("id",old.id);if(r.error)throw r.error;await refreshTripData()}
+async function completeItem(i){const old=currentDay().items[i];const r=await sb.from("trip_itinerary_items").update({completed:!old.completed}).eq("id",old.id);if(r.error)throw r.error;await refreshTripData()}
+function renderFoodList(){$("foodList").innerHTML=DATA.foods.map((x,i)=>`<div class="card item"><div class="listrow"><div class="listleft">${x.image?`<img class="thumb" src="${x.image}">`:""}<div><b>${x.name}</b><div class="muted">${x.taste}｜${x.when}</div></div></div><div class="row"><button class="soft" data-food-edit="${i}">編輯</button><button class="danger" data-food-del="${i}">刪除</button></div></div></div>`).join("");document.querySelectorAll("[data-food-edit]").forEach(b=>b.onclick=()=>editFood(Number(b.dataset.foodEdit)));document.querySelectorAll("[data-food-del]").forEach(b=>b.onclick=()=>deleteFood(Number(b.dataset.foodDel)))}
+function editFood(i){const x=DATA.foods[i];$("foodIndex").value=i;$("foodName").value=x.name||"";$("foodTaste").value=x.taste||"";$("foodWhen").value=x.when||"";$("foodStory").value=x.story||"";$("foodWhy").value=x.why||"";$("foodImage").value=x.image||"";if(x.image){$("foodPreview").src=x.image;$("foodPreview").style.display="block"}$("foodEditor").style.display="block"}
+function newFood(){$("foodIndex").value="";["foodName","foodTaste","foodWhen","foodStory","foodWhy"].forEach(id=>$(id).value="");$("foodImage").value="";$("foodPreview").style.display="none";$("foodEditor").style.display="block"}
+async function saveFood(){if(!CURRENT_TRIP)return alert("請先選擇旅程");const payload={trip_id:CURRENT_TRIP.id,food_order:DATA.foods.length,name:$("foodName").value,image:$("foodImage").value,story:$("foodStory").value,why:$("foodWhy").value,taste:$("foodTaste").value,when_text:$("foodWhen").value};let r;if($("foodIndex").value==="")r=await sb.from("trip_foods").insert(payload);else{const old=DATA.foods[Number($("foodIndex").value)];r=await sb.from("trip_foods").update(payload).eq("id",old.id)}if(r.error)throw r.error;$("foodEditor").style.display="none";await refreshTripData();alert("美食已儲存，觀看版重新整理即可看到。")}
+async function deleteFood(i){if(!confirm("刪除美食？"))return;const old=DATA.foods[i];const r=await sb.from("trip_foods").delete().eq("id",old.id);if(r.error)throw r.error;await refreshTripData()}
+function bindTabs(){document.querySelectorAll(".adminTab").forEach(t=>{t.onclick=()=>{document.querySelectorAll(".adminTab").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));$(t.dataset.panel).classList.add("active");scrollTo(0,0)}})}
+function bindImages(){bindFile("heroFile","heroPreview",url=>{DATA.trip.hero=url});bindFile("hotelFile","hotelPreview",url=>{DATA.trip.hotelImage=url});bindFile("flightOutFile","flightOutPreview",url=>{DATA.trip.flightOut.image=url});bindFile("flightBackFile","flightBackPreview",url=>{DATA.trip.flightBack.image=url});bindFile("imageFile","preview",url=>{$("image").value=url});bindFile("foodFile","foodPreview",url=>{$("foodImage").value=url})}
+function bindButtons(){$("createTripBtn").onclick=createTrip;$("reloadTripsBtn").onclick=loadTrips;$("publishTripBtn").onclick=publishTrip;$("endTripBtn").onclick=endTrip;$("closePublicBtn").onclick=closePublic;$("saveSiteBtn").onclick=()=>saveSite(true);$("saveFlightsBtn").onclick=()=>saveFlights(true);$("daySelect").onchange=()=>{loadDayMeta();renderList()};$("addDayBtn").onclick=addDay;$("saveDayMetaBtn").onclick=saveDayMeta;$("deleteDayBtn").onclick=deleteDay;$("newItemBtn").onclick=newItem;$("saveItemBtn").onclick=saveItem;$("cancelEditBtn").onclick=()=>{$("editor").style.display="none"};$("newFoodBtn").onclick=newFood;$("saveFoodBtn").onclick=saveFood;$("cancelFoodBtn").onclick=()=>{$("foodEditor").style.display="none"}}
+async function init(){bindTabs();bindButtons();bindImages();await loadTrips()}
+init();
+</script></body></html>
