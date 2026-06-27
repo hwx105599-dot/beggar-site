@@ -199,6 +199,33 @@ const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 let TRIPS=[],CURRENT_TRIP=null,DATA={trip:{},days:[],foods:[],announcements:[],polls:[]};
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function normalizeTimeValue(v){
+  const s=String(v||"").trim();
+  if(!s)return 999999;
+  const colon=s.match(/(\d{1,2})\s*[:：點]\s*(\d{1,2})?/);
+  if(colon){
+    const h=Number(colon[1]||0), m=Number(colon[2]||0);
+    return h*60+m;
+  }
+  const digits=s.replace(/\D/g,"");
+  if(digits.length>=3){
+    const h=Number(digits.slice(0,-2)), m=Number(digits.slice(-2));
+    return h*60+m;
+  }
+  if(digits.length>0)return Number(digits)*60;
+  return 999999;
+}
+function sortItineraryItems(arr){
+  return (arr||[]).sort((a,b)=>
+    normalizeTimeValue(a.time)-normalizeTimeValue(b.time) ||
+    ((Number(a.item_order ?? a.itemOrder ?? 0))-(Number(b.item_order ?? b.itemOrder ?? 0))) ||
+    String(a.created_at||"").localeCompare(String(b.created_at||""))
+  );
+}
+function nextItemOrder(items){
+  const nums=(items||[]).map(x=>Number(x.itemOrder ?? x.item_order)).filter(n=>Number.isFinite(n));
+  return nums.length?Math.max(...nums)+1:0;
+}
 function slugify(s){return String(s||"").trim().toLowerCase().replace(/\s+/g,"-").replace(/[^a-zA-Z0-9_-]/g,"-").replace(/-+/g,"-").replace(/^-|-$/g,"")}
 function toIso(v){return v?new Date(v).toISOString():null}
 function toLocal(v){if(!v)return"";const d=new Date(v);if(Number.isNaN(d.getTime()))return"";const p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`}
@@ -235,7 +262,7 @@ sb.from("trip_itinerary_items").select("*").eq("trip_id",id).order("item_order")
 sb.from("trip_foods").select("*").eq("trip_id",id).order("food_order"),
 sb.from("trip_announcements").select("*").eq("trip_id",id).order("is_pinned",{ascending:false}).order("created_at",{ascending:false}),
 sb.from("trip_polls").select("*, trip_poll_options(*), trip_poll_votes(*)").eq("trip_id",id).order("created_at",{ascending:false})
-]);[site,days,items,foods,anns,polls].forEach(r=>{if(r.error)throw r.error});const ds=(days.data||[]).map(d=>({...d,items:[]}));const by=Object.fromEntries(ds.map(d=>[d.id,d]));(items.data||[]).forEach(x=>{if(by[x.day_id])by[x.day_id].items.push(x)});DATA={trip:{...(site.data||{})},days:ds.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,imageUrls:x.image_urls||[],story:x.story,food:x.food,foodId:x.food_id,navEnabled:x.nav_enabled,completed:x.completed}))})),foods:(foods.data||[]).map(f=>({id:f.id,name:f.name,image:f.image,imageUrls:f.image_urls||[],story:f.story,why:f.why,taste:f.taste,when:f.when_text})),announcements:anns.data||[],polls:polls.data||[]};fillAll()}
+]);[site,days,items,foods,anns,polls].forEach(r=>{if(r.error)throw r.error});const ds=(days.data||[]).map(d=>({...d,items:[]}));const by=Object.fromEntries(ds.map(d=>[d.id,d]));(items.data||[]).forEach(x=>{if(by[x.day_id])by[x.day_id].items.push(x)});ds.forEach(d=>sortItineraryItems(d.items));DATA={trip:{...(site.data||{})},days:ds.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,itemOrder:x.item_order,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,imageUrls:x.image_urls||[],story:x.story,food:x.food,foodId:x.food_id,navEnabled:x.nav_enabled,completed:x.completed}))})),foods:(foods.data||[]).map(f=>({id:f.id,name:f.name,image:f.image,imageUrls:f.image_urls||[],story:f.story,why:f.why,taste:f.taste,when:f.when_text})),announcements:anns.data||[],polls:polls.data||[]};fillAll()}
 function fillAll(){fillSite();fillFlights();populateDaySelect();loadDayMeta();renderItems();renderFoods();renderAnnouncements();renderPolls();fillItemFoodSelect()}
 function fillSite(){const t=DATA.trip;$("tripTitle").value=t.title||CURRENT_TRIP.name||"";$("tripDates").value=t.dates||"";$("tripHotel").value=t.hotel||"";$("tripHotelAddress").value=t.hotel_address||"";$("hotelNavEnabled").checked=t.hotel_nav_enabled!==false;$("mapProvider").value=t.map_provider||"amap";showPreview("heroPreview",t.hero_image);showPreview("hotelPreview",t.hotel_image)}
 function showPreview(id,url){if(url){$(id).src=url;$(id).style.display="block"}else{$(id).removeAttribute("src");$(id).style.display="none"}}
@@ -256,7 +283,7 @@ async function deleteDay(){await run("刪除日期",async()=>{const d=currentDay
 function renderItems(){const d=currentDay();if(!d){$("list").innerHTML="";return}$("list").innerHTML=d.items.map((x,i)=>`<div class="card content item"><div class="listrow"><div>${x.image?`<img class="thumb" src="${x.image}">`:""}<b>${esc(x.time||"")}　${esc(x.name||"")}</b><div class="muted">${esc(x.tag||"")}｜${x.navEnabled===false?"導航關閉":"導航開啟"}｜${esc(x.address||"未填地址")}</div></div><div class="row"><button class="soft" data-edit="${i}">編輯</button><button class="danger" data-del="${i}">刪除</button><button class="primary" data-complete="${i}">${x.completed?"取消完成":"完成"}</button></div></div></div>`).join("");document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editItem(Number(b.dataset.edit)));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteItem(Number(b.dataset.del)));document.querySelectorAll("[data-complete]").forEach(b=>b.onclick=()=>completeItem(Number(b.dataset.complete)))}
 function editItem(i){const x=currentDay().items[i];$("editIndex").value=i;["time","name","address","tag","story","food"].forEach(k=>$(k).value=x[k]||"");$("navEnabled").checked=x.navEnabled!==false;$("image").value=x.image||"";setArrInput("imageUrls",x.imageUrls||[]);renderGallery("imageGalleryPreview",x.imageUrls||[]);fillItemFoodSelect(x.foodId||"");showPreview("preview",x.image);$("editor").style.display="block"}
 function newItem(){if(!currentDay())return alert("請先新增日期");$("editIndex").value="";["time","name","address","tag","story","food"].forEach(k=>$(k).value="");$("navEnabled").checked=true;$("image").value="";setArrInput("imageUrls",[]);renderGallery("imageGalleryPreview",[]);fillItemFoodSelect("");showPreview("preview","");$("editor").style.display="block"}
-async function saveItem(){await run("儲存行程",async()=>{const d=currentDay();if(!d)return alert("請先新增日期");const name=$("name").value.trim();if(!name)return alert("請輸入行程名稱");const payload={trip_id:CURRENT_TRIP.id,day_id:d.id,item_order:d.items.length,time:$("time").value,name,address:$("address").value,tag:$("tag").value,image:$("image").value,image_urls:arrInput("imageUrls"),story:$("story").value,food:$("food").value,food_id:$("itemFoodSelect").value||null,nav_enabled:$("navEnabled").checked};let r;if($("editIndex").value==="")r=await sb.from("trip_itinerary_items").insert(payload);else{const old=d.items[Number($("editIndex").value)];r=await sb.from("trip_itinerary_items").update(payload).eq("id",old.id)}if(r.error)throw r.error;$("editor").style.display="none";await loadTripData();alert("行程已儲存")})}
+async function saveItem(){await run("儲存行程",async()=>{const d=currentDay();if(!d)return alert("請先新增日期");const name=$("name").value.trim();if(!name)return alert("請輸入行程名稱");const payload={trip_id:CURRENT_TRIP.id,day_id:d.id,time:$("time").value,name,address:$("address").value,tag:$("tag").value,image:$("image").value,image_urls:arrInput("imageUrls"),story:$("story").value,food:$("food").value,food_id:$("itemFoodSelect").value||null,nav_enabled:$("navEnabled").checked};let r;if($("editIndex").value===""){payload.item_order=nextItemOrder(d.items);r=await sb.from("trip_itinerary_items").insert(payload)}else{const old=d.items[Number($("editIndex").value)];r=await sb.from("trip_itinerary_items").update(payload).eq("id",old.id)}if(r.error)throw r.error;$("editor").style.display="none";await loadTripData();alert("行程已儲存")})}
 async function deleteItem(i){await run("刪除行程",async()=>{if(!confirm("刪除行程？"))return;const old=currentDay().items[i];const r=await sb.from("trip_itinerary_items").delete().eq("id",old.id);if(r.error)throw r.error;await loadTripData()})}
 async function completeItem(i){await run("更新完成",async()=>{const old=currentDay().items[i];const r=await sb.from("trip_itinerary_items").update({completed:!old.completed}).eq("id",old.id);if(r.error)throw r.error;await loadTripData()})}
 
