@@ -28,7 +28,7 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}.tripLink{word-break:break-all;max-height:42px;overflow:hidden}.tripCard{min-height:auto!important}.tripCard .listrow{align-items:flex-start}.copyOk{background:#ecfdf3;color:#067647}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
 .gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}</style></head><body><div class="wrap">
-<h1>旅行雲端管理版｜多旅程 v16</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div><div class="card"><div class="row"><button class="primary" id="publishTripBtn">儲存並開放觀看版</button><button class="orange" id="endTripBtn">結束旅程</button><button class="danger" id="closePublicBtn">關閉公開</button></div><div class="muted">按「儲存首頁住宿」會更新我的旅程列表；按「儲存並開放觀看版」後，使用者重新整理觀看版就會看到最新內容。</div></div>
+<h1>旅行雲端管理版｜多旅程 v17</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div><div class="card"><div class="row"><button class="primary" id="publishTripBtn">儲存並開放觀看版</button><button class="orange" id="endTripBtn">結束旅程</button><button class="danger" id="closePublicBtn">關閉公開</button></div><div class="muted">按「儲存首頁住宿」會更新我的旅程列表；按「儲存並開放觀看版」後，使用者重新整理觀看版就會看到最新內容。</div></div>
 <div class="tabs"><button class="adminTab active" data-panel="trips">我的旅程</button><button class="adminTab" data-panel="site">首頁住宿</button><button class="adminTab" data-panel="days">每日行程</button><button class="adminTab" data-panel="foods">美食管理</button><button class="adminTab" data-panel="flights">航班資料</button><button class="adminTab" data-panel="announcements">公佈欄</button></div>
 <section id="trips" class="panel active"><div class="card"><h2>建立新旅程</h2><div class="grid2"><div><label>旅程名稱</label><input id="newTripName" placeholder="例如：廈門旅行"></div><div><label>旅程代號</label><input id="newTripSlug" placeholder="例如：xiamen-20260711"></div></div><div class="grid2"><div><label>目的地</label><input id="newTripDestination"></div><div><label>旅程密碼</label><input id="newTripCode" placeholder="例如：xiamen2026"></div><div><label>開始日期</label><input id="newTripStart" type="date"></div><div><label>結束日期</label><input id="newTripEnd" type="date"></div><div><label>開放開始時間</label><input id="newTripOpenAt" type="datetime-local"></div><div><label>開放結束時間</label><input id="newTripCloseAt" type="datetime-local"></div></div><button class="primary" id="createTripBtn">＋ 建立新旅程</button><div class="muted">如果沒有填旅程密碼，系統會自動用旅程代號當密碼。</div><button class="soft" id="reloadTripsBtn">重新讀取旅程</button></div><div id="tripList"></div></section>
 <section id="site" class="panel"><div class="card"><h2>首頁與住宿</h2><label>網站標題</label><input id="tripTitle"><label>旅遊日期顯示</label><input id="tripDates"><label>住宿名稱／顯示文字</label><textarea id="tripHotel"></textarea><label>住宿導航地址</label><input id="tripHotelAddress"><label class="row"><input class="switch" id="hotelNavEnabled" type="checkbox">住宿顯示「開啟導航」</label><label>導航地圖</label><select id="mapProvider"><option value="amap">高德地圖</option><option value="google">Google 地圖</option></select><label>首頁大圖</label><label class="pick" for="heroFile">＋ 選擇首頁圖片</label><input id="heroFile" type="file" accept="image/*" style="display:none"><img id="heroPreview" class="preview"><label>住宿圖片</label><label class="pick" for="hotelFile">＋ 選擇住宿圖片</label><input id="hotelFile" type="file" accept="image/*" style="display:none"><img id="hotelPreview" class="preview"><button class="primary" id="saveSiteBtn">儲存首頁住宿</button></div></section>
@@ -277,27 +277,35 @@ async function addAnnouncement(){
 
     const r=await sb.from("trip_announcements").insert({
       trip_id:CURRENT_TRIP.id,
-      title:title,
+      title:title || "公告",
       body:body,
       is_active:true,
       is_pinned:$("annPinned").checked
-    });
+    }).select().single();
 
     if(r.error) throw r.error;
 
     $("annTitle").value="";
     $("annBody").value="";
     $("annPinned").checked=false;
+
     await refreshTripData();
-    alert("公告已發布。使用者端重新整理後會看到。");
+    renderAnnouncementAdmin();
+    alert("公告已發布。請到下方公告列表確認，使用者端重新整理後會看到。");
   }catch(e){
     console.error("addAnnouncement failed", e);
-    alert("發布到公佈欄失敗：" + (e.message || JSON.stringify(e)) + "\n\n如果錯誤提到 trip_announcements，請先執行 supabase_trips_v14_update.sql。");
+    alert("發布公告失敗：" + (e.message || JSON.stringify(e)) + "\n\n如果錯誤提到 trip_announcements，請先執行 supabase_trips_v14_update.sql。");
   }
 }
 function renderAnnouncementAdmin(){
-  const box=$("announcementList"); if(!box)return;
-  box.innerHTML=(DATA.announcements||[]).map(a=>`<div class="item"><div class="adminListTitle">${a.title||"未命名公告"} ${a.is_active?'<span class="status">顯示</span>':'<span class="status">隱藏</span>'} ${a.is_pinned?'<span class="status">置頂</span>':''}</div><div class="muted announcementBody">${a.body||""}</div><div class="row"><button class="soft smallBtn" data-ann-toggle="${a.id}">${a.is_active?'隱藏':'顯示'}</button><button class="danger smallBtn" data-ann-del="${a.id}">刪除</button></div></div>`).join("")||'<div class="muted">尚未新增公佈欄公告。</div>';
+  const box=$("announcementList"); 
+  if(!box)return;
+  const list=DATA.announcements||[];
+  if(!list.length){
+    box.innerHTML='<div class="muted">尚未新增公告。</div>';
+    return;
+  }
+  box.innerHTML=list.map(a=>`<div class="item"><div class="adminListTitle">${a.title||"公告"} ${a.is_active?'<span class="status">顯示</span>':'<span class="status">隱藏</span>'} ${a.is_pinned?'<span class="status">置頂</span>':''}</div><div class="muted announcementBody">${a.body||""}</div><div class="row"><button class="soft smallBtn" data-ann-toggle="${a.id}">${a.is_active?'隱藏':'顯示'}</button><button class="danger smallBtn" data-ann-del="${a.id}">刪除</button></div></div>`).join("");
   document.querySelectorAll("[data-ann-toggle]").forEach(b=>b.onclick=()=>toggleAnnouncement(Number(b.dataset.annToggle)));
   document.querySelectorAll("[data-ann-del]").forEach(b=>b.onclick=()=>deleteAnnouncement(Number(b.dataset.annDel)));
 }

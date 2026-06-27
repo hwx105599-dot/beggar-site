@@ -76,7 +76,7 @@ async function loadCloudData(){
   DATA={
     trip:{id:trip.id,slug:trip.slug,name:trip.name,status:trip.status,public_enabled:trip.public_enabled,title:site.title||trip.name,dates:site.dates||"",hotel:site.hotel||"",hotelAddress:site.hotel_address||"",hotelNavEnabled:site.hotel_nav_enabled!==false,mapProvider:site.map_provider||"amap",hero:site.hero_image||"",hotelImage:site.hotel_image||"",flightOut:{time:site.flight_out_time||"",route:site.flight_out_route||"",image:site.flight_out_image||""},flightBack:{time:site.flight_back_time||"",route:site.flight_back_route||"",image:site.flight_back_image||""}},
     days:days.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,imageUrls:x.image_urls||[],story:x.story,food:x.food,foodId:x.food_id,navEnabled:x.nav_enabled,completed:x.completed}))})),
-    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,imageUrls:x.image_urls||[],story:x.story,why:x.why,taste:x.taste,when:x.when_text}))
+    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,imageUrls:x.image_urls||[],story:x.story,why:x.why,taste:x.taste,when:x.when_text})),announcements:(annRes.data||[]),polls:(pollRes.data||[])
   };
 }
 function renderAll(){ $("hero").style.backgroundImage=DATA.trip.hero?`url('${DATA.trip.hero}')`:""; $("tripTitle").textContent=DATA.trip.title||"我的旅行"; $("tripDates").textContent=DATA.trip.dates||""; renderHotelCard(); renderAnnouncements(); renderPolls(); renderDays(); renderFoods(); renderInfo(); }
@@ -88,8 +88,12 @@ function getVoterKey(){
   return key;
 }
 function renderAnnouncements(){
-  const box=$("announcementsBox"); if(!box)return;
-  box.innerHTML=(DATA.announcements||[]).length?(DATA.announcements||[]).map(a=>`<div class="card noticeCard"><div class="content"><b>${esc(a.title||"公告")}</b>${a.is_pinned?'<span class="badge">置頂</span>':''}<p class="announcementBody">${esc(a.body||"")}</p></div></div>`).join(""):'<div class="card"><div class="empty">目前沒有公告。</div></div>';
+  const box=$("announcementsBox"); 
+  if(!box)return;
+  const list=DATA.announcements||[];
+  box.innerHTML=list.length
+    ? list.map(a=>`<div class="card noticeCard"><div class="content"><b>${esc(a.title||"公告")}</b>${a.is_pinned?'<span class="badge">置頂</span>':''}<p class="announcementBody">${esc(a.body||"")}</p></div></div>`).join("")
+    : '<div class="card"><div class="empty">目前沒有公告。</div></div>';
 }
 function renderPolls(){
   const box=$("pollsBox"); if(!box)return;
