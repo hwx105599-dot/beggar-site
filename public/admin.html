@@ -27,10 +27,10 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .panel{display:none}.panel.active{display:block}.thumb{width:90px;height:62px;object-fit:cover;border-radius:8px;background:#edf2f7}.listrow{display:flex;gap:12px;align-items:center;justify-content:space-between}.listleft{display:flex;gap:12px;align-items:center}.switch{width:auto;margin-right:6px}.warn{background:#fff7ed;color:#9a3412;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}.tripLink{word-break:break-all;max-height:42px;overflow:hidden}.tripCard{min-height:auto!important}.tripCard .listrow{align-items:flex-start}.copyOk{background:#ecfdf3;color:#067647}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
-.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}</style></head><body><div class="wrap">
-<h1>旅行雲端管理版｜多旅程 v21</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div>
-<div class="card" id="tripQuickSettings">
-  <h2>旅程設定快速修改</h2>
+.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}.quickSettings{border:1px solid #d1fae5}.quickSettings h2{margin-bottom:8px}</style></head><body><div class="wrap">
+<h1>旅行雲端管理版｜多旅程 v22</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div>
+<div class="card quickSettings">
+  <h2>旅程密碼與開放時間</h2>
   <div class="grid2">
     <div>
       <label>旅程密碼</label>
@@ -53,10 +53,10 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
     </div>
   </div>
   <div class="row">
-    <button class="primary" id="saveTripQuickSettingsBtn">儲存旅程設定</button>
-    <button class="orange" id="clearTripTimeBtn">清除開放時間限制</button>
+    <button class="primary" id="saveTripQuickSettingsBtn">儲存密碼與時間</button>
+    <button class="soft" id="clearTripTimeBtn">清除時間限制</button>
   </div>
-  <div class="muted">密碼或開放時間打錯，可以在這裡直接改，不用刪除重建。</div>
+  <div class="muted">只改這裡不會影響每日行程。時間或密碼打錯，可以在這裡修正。</div>
 </div>
 <div class="card"><div class="row"><button class="primary" id="publishTripBtn">儲存並開放觀看版</button><button class="orange" id="endTripBtn">結束旅程</button><button class="danger" id="closePublicBtn">關閉公開</button><button class="soft" id="demoDataBtn">加入測試資料</button></div><div class="muted">按「儲存首頁住宿」會更新我的旅程列表；按「儲存並開放觀看版」後，使用者重新整理觀看版就會看到最新內容。</div></div>
 <div class="tabs"><button class="adminTab active" data-panel="trips">我的旅程</button><button class="adminTab" data-panel="site">首頁住宿</button><button class="adminTab" data-panel="days">每日行程</button><button class="adminTab" data-panel="foods">美食管理</button><button class="adminTab" data-panel="flights">航班資料</button><button class="adminTab" data-panel="announcements">公佈欄</button></div>
@@ -202,11 +202,14 @@ async function saveTripQuickSettings(){
     if(r.error)throw r.error;
     CURRENT_TRIP=r.data;
     await loadTrips();
-    await selectTrip(CURRENT_TRIP.id);
-    alert("旅程設定已儲存。使用者重新整理後會依照新密碼與新時間開放。");
+    const keep=CURRENT_TRIP.id;
+    CURRENT_TRIP=TRIPS.find(t=>t.id===keep)||CURRENT_TRIP;
+    fillTripQuickSettings();
+    $("currentTripTitle").textContent=CURRENT_TRIP?`目前管理：${CURRENT_TRIP.name}（${CURRENT_TRIP.status}／${CURRENT_TRIP.public_enabled?'公開':'關閉'}）`:"尚未選擇旅程";
+    alert("旅程密碼與開放時間已儲存。");
   }catch(e){
     console.error(e);
-    alert("儲存旅程設定失敗："+(e.message||JSON.stringify(e))+"\\n\\n如果錯誤提到 access_code / open_at / close_at，請先執行 v12 SQL。");
+    alert("儲存失敗："+(e.message||JSON.stringify(e))+"\\n\\n如果錯誤提到 access_code / open_at / close_at，請先執行 v12 SQL。");
   }
 }
 async function clearTripTimeLimit(){
@@ -216,7 +219,7 @@ async function clearTripTimeLimit(){
   if(r.error){alert("清除失敗："+r.error.message);throw r.error}
   CURRENT_TRIP=r.data;
   await loadTrips();
-  await selectTrip(CURRENT_TRIP.id);
+  fillTripQuickSettings();
   alert("已清除開放時間限制。");
 }
 async function resetTripSettings(id){
