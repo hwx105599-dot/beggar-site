@@ -27,8 +27,8 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .panel{display:none}.panel.active{display:block}.thumb{width:90px;height:62px;object-fit:cover;border-radius:8px;background:#edf2f7}.listrow{display:flex;gap:12px;align-items:center;justify-content:space-between}.listleft{display:flex;gap:12px;align-items:center}.switch{width:auto;margin-right:6px}.warn{background:#fff7ed;color:#9a3412;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
-.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}.feedbackBox{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin-top:12px}.stars{display:flex;gap:6px;margin:8px 0}.starBtn{font-size:22px;border:0;background:#eef7f6;color:#667085;border-radius:8px;padding:6px 9px}.starBtn.active{background:#0f766e;color:white}.logoutBar{position:fixed;top:8px;right:8px;z-index:20}.downloadBox{padding:14px}.smallNote{font-size:12px;color:#667085}.likeRow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.likeRow button.active{outline:2px solid #0f766e}</style></head><body><div class="logoutBar" id="logoutBar" style="display:none"><button class="gray smallBtn" id="logoutBtn">登出</button></div>
-<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。也可以輸入旅程代號測試。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section><section id="download" class="screen"><h2 class="sectionTitle">下載可瀏覽電子檔</h2><div class="card"><div class="downloadBox"><p class="muted">下載一個只讀版 HTML 電子檔，可以打開點選查看，但不能修改。</p><button class="primary" id="downloadTripBtn">下載可瀏覽電子檔</button><div class="smallNote">這是使用者自己的紀錄，管理員後台不會顯示。</div></div></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="bulletin">📢<br>公佈欄</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button><button class="tab" data-screen="download">⬇️<br>下載</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}.feedbackBox{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin-top:12px}.stars{display:flex;gap:6px;margin:8px 0}.starBtn{font-size:22px;border:0;background:#eef7f6;color:#667085;border-radius:8px;padding:6px 9px}.starBtn.active{background:#0f766e;color:white}.logoutBar{position:fixed;top:8px;right:8px;z-index:20}.downloadBox{padding:14px}.smallNote{font-size:12px;color:#667085}.likeRow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.likeRow button.active{outline:2px solid #0f766e}.loginStatus{margin-top:10px;font-size:13px;color:#0f766e;white-space:pre-wrap}.warn{white-space:pre-wrap}</style></head><body><div class="logoutBar" id="logoutBar" style="display:none"><button class="gray smallBtn" id="logoutBtn">登出</button></div>
+<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。也可以輸入旅程代號測試。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div><div id="loginStatus" class="loginStatus"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section><section id="download" class="screen"><h2 class="sectionTitle">下載可瀏覽電子檔</h2><div class="card"><div class="downloadBox"><p class="muted">下載一個只讀版 HTML 電子檔，可以打開點選查看，但不能修改。</p><button class="primary" id="downloadTripBtn">下載可瀏覽電子檔</button><div class="smallNote">這是使用者自己的紀錄，管理員後台不會顯示。</div></div></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="bulletin">📢<br>公佈欄</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button><button class="tab" data-screen="download">⬇️<br>下載</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL = "https://ovprxrcvclejwjytvfra.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cHJ4cmN2Y2xlandqeXR2ZnJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDUyODksImV4cCI6MjA5ODEyMTI4OX0.i72mbwna6qTR0nvDybeVqZmBgtpC_BAYaEwHaqjWKzg";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -52,8 +52,10 @@ async function loadCloudData(){
       return;
     }
 
-    // 先用旅程密碼找，找不到再用旅程代號找
+    // 先用旅程密碼找
     tripRes=await sb.from("trips").select("*").eq("access_code",code).maybeSingle();
+
+    // 找不到再用旅程代號找
     if(!tripRes.error && !tripRes.data){
       tripRes=await sb.from("trips").select("*").eq("slug",code).maybeSingle();
     }
@@ -63,7 +65,7 @@ async function loadCloudData(){
   const trip=tripRes.data;
 
   if(!trip){
-    DATA={trip:{title:"找不到旅程",dates:"",hotel:"找不到這個旅程。請確認密碼或旅程代號是否正確。",blocked:true},days:[],foods:[],feedback:[]};
+    DATA={trip:{title:"找不到旅程",dates:"",hotel:"找不到這個旅程。請確認密碼是否正確。",blocked:true},days:[],foods:[],feedback:[]};
     return;
   }
 
@@ -80,17 +82,17 @@ async function loadCloudData(){
   }
 
   if(!trip.public_enabled){
-    DATA={trip:{title:trip.name||"旅程未公開",dates:"",hotel:"這趟旅程目前尚未開放觀看。請到後台按「儲存並開放觀看版」或把公開觀看改成公開。",blocked:true},days:[],foods:[],feedback:[]};
+    DATA={trip:{title:trip.name||"旅程未公開",dates:"",hotel:"這趟旅程目前尚未開放觀看。請到後台把公開觀看設為公開。",blocked:true},days:[],foods:[],feedback:[]};
     return;
   }
 
   if(trip.open_at && now < new Date(trip.open_at)){
-    DATA={trip:{title:trip.name||"尚未開放",dates:"",hotel:"這趟旅程還沒到開放時間。開放時間：" + trip.open_at,blocked:true},days:[],foods:[],feedback:[]};
+    DATA={trip:{title:trip.name||"尚未開放",dates:"",hotel:"這趟旅程還沒到開放時間。\n開放時間：" + trip.open_at + "\n現在時間：" + now.toISOString(),blocked:true},days:[],foods:[],feedback:[]};
     return;
   }
 
   if(trip.close_at && now > new Date(trip.close_at)){
-    DATA={trip:{title:trip.name||"旅程已過期",dates:"",hotel:"這趟旅程已超過關閉時間。關閉時間：" + trip.close_at,blocked:true},days:[],foods:[],feedback:[]};
+    DATA={trip:{title:trip.name||"旅程已過期",dates:"",hotel:"這趟旅程已超過關閉時間。\n關閉時間：" + trip.close_at + "\n現在時間：" + now.toISOString(),blocked:true},days:[],foods:[],feedback:[]};
     return;
   }
 
@@ -98,7 +100,12 @@ async function loadCloudData(){
   const daysRes=await sb.from("trip_days").select("*").eq("trip_id",trip.id).order("date").order("day_order");
   const itemsRes=await sb.from("trip_itinerary_items").select("*").eq("trip_id",trip.id).order("item_order");
   const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",trip.id).order("food_order");
-  const feedbackRes=await sb.from("trip_user_feedback").select("*").eq("trip_id",trip.id).eq("voter_key",getVoterKey());
+  let feedbackRes={data:[]};
+  try{
+    feedbackRes=await sb.from("trip_user_feedback").select("*").eq("trip_id",trip.id).eq("voter_key",getVoterKey());
+  }catch(e){
+    feedbackRes={data:[]};
+  }
 
   const site=siteRes.data||{};
   const days=(daysRes.data||[]).map(d=>({...d,items:[]}));
@@ -232,7 +239,7 @@ button.detail{border:0;border-radius:10px;background:#eef7f6;color:#0f766e;font-
 .detailBox{display:none;border-top:1px solid #e5e7eb;margin-top:10px;padding-top:10px}.detailBox.show{display:block}
 .gallery{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.gallery img{width:120px;height:86px;border-radius:10px;object-fit:cover}
 @media(max-width:520px){.hero{height:210px}.card img{height:190px}}
-</style>
+.loginStatus{margin-top:10px;font-size:13px;color:#0f766e;white-space:pre-wrap}.warn{white-space:pre-wrap}</style>
 </head>
 <body>
 <div class="wrap">
@@ -303,32 +310,43 @@ async function openByCode(){
     return;
   }
   $("loginMsg").style.display="none";
+  if($("loginStatus"))$("loginStatus").textContent="正在登入，請稍等...";
   localStorage.setItem("trip_access_code",code);
   await loadAndRender();
 }
+
 async function loadAndRender(){
   try{
+    if($("loginStatus"))$("loginStatus").textContent="正在連線 Supabase...";
     await loadCloudData();
+
     if(DATA.trip && DATA.trip.blocked){
       $("loginBox").style.display="block";
       $("app").style.display="none";
       if($("logoutBar"))$("logoutBar").style.display="none";
       $("loginMsg").style.display="block";
-      $("loginMsg").textContent=DATA.trip.hotel || "無法開啟旅程，請確認密碼或開放時間。";
+      $("loginMsg").textContent=DATA.trip.hotel || "無法開啟旅程";
+      if($("loginStatus"))$("loginStatus").textContent="";
       return;
     }
+
     if(!DATA.trip || !DATA.trip.id){
       $("loginBox").style.display="block";
       $("app").style.display="none";
       if($("logoutBar"))$("logoutBar").style.display="none";
+      $("loginMsg").style.display="block";
+      $("loginMsg").textContent="沒有讀到旅程資料，請確認密碼。";
+      if($("loginStatus"))$("loginStatus").textContent="";
       return;
     }
+
     $("loginBox").style.display="none";
     $("app").style.display="block";
     if($("logoutBar"))$("logoutBar").style.display="block";
     if($("loginMsg"))$("loginMsg").style.display="none";
+    if($("loginStatus"))$("loginStatus").textContent="";
     renderAll();
-    bindFeedbackBox();
+    if(typeof bindFeedbackBox==="function") bindFeedbackBox();
   }catch(e){
     console.error("loadAndRender failed", e);
     $("loginBox").style.display="block";
@@ -336,6 +354,7 @@ async function loadAndRender(){
     if($("logoutBar"))$("logoutBar").style.display="none";
     $("loginMsg").style.display="block";
     $("loginMsg").textContent="雲端讀取失敗：" + (e.message || JSON.stringify(e));
+    if($("loginStatus"))$("loginStatus").textContent="";
   }
 }
 
