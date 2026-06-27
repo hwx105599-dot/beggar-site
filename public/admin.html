@@ -28,7 +28,7 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}.tripLink{word-break:break-all;max-height:42px;overflow:hidden}.tripCard{min-height:auto!important}.tripCard .listrow{align-items:flex-start}.copyOk{background:#ecfdf3;color:#067647}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
 .gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}.quickSettings{border:1px solid #d1fae5}.quickSettings h2{margin-bottom:8px}</style></head><body><div class="wrap">
-<h1>旅行雲端管理版｜多旅程 v22</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div>
+<h1>旅行雲端管理版｜多旅程 v23</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div>
 <div class="card quickSettings">
   <h2>旅程密碼與開放時間</h2>
   <div class="grid2">
@@ -326,7 +326,76 @@ async function deleteDay(){const d=currentDay();if(!d)return;if(!confirm("刪除
 function renderList(){const d=currentDay();if(!d){$("list").innerHTML="";return}$("list").innerHTML=d.items.map((x,i)=>`<div class="card item"><div class="listrow"><div class="listleft">${x.image?`<img class="thumb" src="${x.image}">`:""}<div><b>${x.time||""}　${x.name||""}</b> ${x.completed?'<span class="done">✓ 已完成</span>':''}<div class="muted">${x.tag||""}｜${x.navEnabled===false?'導航關閉':'導航開啟'}｜${x.address||'未填地址'}</div></div></div><div class="row"><button class="soft" data-edit="${i}">編輯</button><button class="danger" data-del="${i}">刪除</button><button class="primary" data-complete="${i}">${x.completed?'取消完成':'完成'}</button></div></div></div>`).join("");document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editItem(Number(b.dataset.edit)));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteItem(Number(b.dataset.del)));document.querySelectorAll("[data-complete]").forEach(b=>b.onclick=()=>completeItem(Number(b.dataset.complete)))}
 function editItem(i){const x=currentDay().items[i];$("editIndex").value=i;["time","name","address","tag","story","food"].forEach(k=>$(k).value=x[k]||"");$("navEnabled").checked=x.navEnabled!==false;$("image").value=x.image||"";if(x.image){$("preview").src=x.image;$("preview").style.display="block"}$("editor").style.display="block"}
 function newItem(){if(!currentDay())return alert("請先新增日期");$("editIndex").value="";["time","name","address","tag","story","food"].forEach(k=>$(k).value="");$("navEnabled").checked=true;$("image").value="";setJsonArrayInput("imageUrls",[]);renderGalleryPreview("imageGalleryPreview",[]);fillItemFoodSelect("");$("preview").style.display="none";$("editor").style.display="block"}
-async function saveItem(){const d=currentDay();if(!d)return;const payload={trip_id:CURRENT_TRIP.id,day_id:d.id,item_order:d.items.length,time:$("time").value,name:$("name").value,address:$("address").value,tag:$("tag").value,image:$("image").value,image_urls:getJsonArrayInput("imageUrls"),story:$("story").value,food:$("food").value,food_id:$("itemFoodSelect").value||null,nav_enabled:$("navEnabled").checked};let r;if($("editIndex").value==="")r=await sb.from("trip_itinerary_items").insert(payload);else{const old=d.items[Number($("editIndex").value)];r=await sb.from("trip_itinerary_items").update(payload).eq("id",old.id)}if(r.error)throw r.error;$("editor").style.display="none";await refreshTripData();alert("行程已儲存，觀看版重新整理即可看到。")}
+async function saveItem(){
+  const saveBtn=$("saveItemBtn");
+  try{
+    if(!CURRENT_TRIP)return alert("請先選擇旅程");
+    const d=currentDay();
+    if(!d)return alert("請先新增日期");
+
+    const nameVal=($("name").value||"").trim();
+    if(!nameVal)return alert("請輸入行程名稱");
+
+    if(saveBtn){saveBtn.disabled=true;saveBtn.textContent="儲存中...";}
+
+    const payload={
+      trip_id:CURRENT_TRIP.id,
+      day_id:d.id,
+      item_order:d.items.length,
+      time:$("time").value||"",
+      name:nameVal,
+      address:$("address").value||"",
+      tag:$("tag").value||"",
+      image:$("image").value||"",
+      story:$("story").value||"",
+      food:$("food").value||"",
+      nav_enabled:$("navEnabled").checked
+    };
+
+    // v7 新功能欄位：更多圖片與指定美食
+    if(typeof getJsonArrayInput==="function"){
+      payload.image_urls=getJsonArrayInput("imageUrls");
+    }
+    if($("itemFoodSelect") && $("itemFoodSelect").value){
+      payload.food_id=$("itemFoodSelect").value;
+    }else{
+      payload.food_id=null;
+    }
+
+    let r;
+    if($("editIndex").value===""){
+      r=await sb.from("trip_itinerary_items").insert(payload);
+    }else{
+      const old=d.items[Number($("editIndex").value)];
+      r=await sb.from("trip_itinerary_items").update(payload).eq("id",old.id);
+    }
+
+    // 如果資料庫還沒補 v7 欄位，自動退回舊格式再存一次
+    if(r.error){
+      const msg=String(r.error.message||"");
+      if(msg.includes("image_urls") || msg.includes("food_id")){
+        delete payload.image_urls;
+        delete payload.food_id;
+        if($("editIndex").value===""){
+          r=await sb.from("trip_itinerary_items").insert(payload);
+        }else{
+          const old=d.items[Number($("editIndex").value)];
+          r=await sb.from("trip_itinerary_items").update(payload).eq("id",old.id);
+        }
+      }
+      if(r.error) throw r.error;
+    }
+
+    $("editor").style.display="none";
+    await refreshTripData();
+    alert("行程已儲存。觀看版重新整理即可看到。");
+  }catch(e){
+    console.error("saveItem failed", e);
+    alert("儲存行程失敗：" + (e.message || JSON.stringify(e)) + "\n\n如果錯誤提到 image_urls 或 food_id，請到 Supabase SQL Editor 執行 v23 補充 SQL。");
+  }finally{
+    if(saveBtn){saveBtn.disabled=false;saveBtn.textContent="儲存行程";}
+  }
+}
 async function deleteItem(i){if(!confirm("刪除行程？"))return;const old=currentDay().items[i];const r=await sb.from("trip_itinerary_items").delete().eq("id",old.id);if(r.error)throw r.error;await refreshTripData()}
 async function completeItem(i){const old=currentDay().items[i];const r=await sb.from("trip_itinerary_items").update({completed:!old.completed}).eq("id",old.id);if(r.error)throw r.error;await refreshTripData()}
 function renderFoodList(){$("foodList").innerHTML=DATA.foods.map((x,i)=>`<div class="card item"><div class="listrow"><div class="listleft">${x.image?`<img class="thumb" src="${x.image}">`:""}<div><b>${x.name}</b><div class="muted">${x.taste}｜${x.when}</div></div></div><div class="row"><button class="soft" data-food-edit="${i}">編輯</button><button class="danger" data-food-del="${i}">刪除</button></div></div></div>`).join("");document.querySelectorAll("[data-food-edit]").forEach(b=>b.onclick=()=>editFood(Number(b.dataset.foodEdit)));document.querySelectorAll("[data-food-del]").forEach(b=>b.onclick=()=>deleteFood(Number(b.dataset.foodDel)))}
