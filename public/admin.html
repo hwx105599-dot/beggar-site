@@ -28,9 +28,9 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}.tripLink{word-break:break-all;max-height:42px;overflow:hidden}.tripCard{min-height:auto!important}.tripCard .listrow{align-items:flex-start}.copyOk{background:#ecfdf3;color:#067647}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
 .gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}</style></head><body><div class="wrap">
-<h1>旅行雲端管理版｜多旅程 v12</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div><div class="card"><div class="row"><button class="primary" id="publishTripBtn">儲存並開放觀看版</button><button class="orange" id="endTripBtn">結束旅程</button><button class="danger" id="closePublicBtn">關閉公開</button></div><div class="muted">按「儲存首頁住宿」會更新我的旅程列表；按「儲存並開放觀看版」後，使用者重新整理觀看版就會看到最新內容。</div></div>
+<h1>旅行雲端管理版｜多旅程 v13</h1><div id="currentTripTitle" class="success">尚未選擇旅程</div><div class="card"><div class="row"><button class="primary" id="publishTripBtn">儲存並開放觀看版</button><button class="orange" id="endTripBtn">結束旅程</button><button class="danger" id="closePublicBtn">關閉公開</button></div><div class="muted">按「儲存首頁住宿」會更新我的旅程列表；按「儲存並開放觀看版」後，使用者重新整理觀看版就會看到最新內容。</div></div>
 <div class="tabs"><button class="adminTab active" data-panel="trips">我的旅程</button><button class="adminTab" data-panel="site">首頁住宿</button><button class="adminTab" data-panel="days">每日行程</button><button class="adminTab" data-panel="foods">美食管理</button><button class="adminTab" data-panel="flights">航班資料</button></div>
-<section id="trips" class="panel active"><div class="card"><h2>建立新旅程</h2><div class="grid2"><div><label>旅程名稱</label><input id="newTripName" placeholder="例如：廈門旅行"></div><div><label>旅程代號</label><input id="newTripSlug" placeholder="例如：xiamen-20260711"></div></div><div class="grid2"><div><label>目的地</label><input id="newTripDestination"></div><div><label>旅程密碼</label><input id="newTripCode" placeholder="例如：xiamen2026"></div><div><label>開始日期</label><input id="newTripStart" type="date"></div><div><label>結束日期</label><input id="newTripEnd" type="date"></div><div><label>開放開始時間</label><input id="newTripOpenAt" type="datetime-local"></div><div><label>開放結束時間</label><input id="newTripCloseAt" type="datetime-local"></div></div><button class="primary" id="createTripBtn">＋ 建立新旅程</button><button class="soft" id="reloadTripsBtn">重新讀取旅程</button></div><div id="tripList"></div></section>
+<section id="trips" class="panel active"><div class="card"><h2>建立新旅程</h2><div class="grid2"><div><label>旅程名稱</label><input id="newTripName" placeholder="例如：廈門旅行"></div><div><label>旅程代號</label><input id="newTripSlug" placeholder="例如：xiamen-20260711"></div></div><div class="grid2"><div><label>目的地</label><input id="newTripDestination"></div><div><label>旅程密碼</label><input id="newTripCode" placeholder="例如：xiamen2026"></div><div><label>開始日期</label><input id="newTripStart" type="date"></div><div><label>結束日期</label><input id="newTripEnd" type="date"></div><div><label>開放開始時間</label><input id="newTripOpenAt" type="datetime-local"></div><div><label>開放結束時間</label><input id="newTripCloseAt" type="datetime-local"></div></div><button class="primary" id="createTripBtn">＋ 建立新旅程</button><div class="muted">如果沒有填旅程密碼，系統會自動用旅程代號當密碼。</div><button class="soft" id="reloadTripsBtn">重新讀取旅程</button></div><div id="tripList"></div></section>
 <section id="site" class="panel"><div class="card"><h2>首頁與住宿</h2><label>網站標題</label><input id="tripTitle"><label>旅遊日期顯示</label><input id="tripDates"><label>住宿名稱／顯示文字</label><textarea id="tripHotel"></textarea><label>住宿導航地址</label><input id="tripHotelAddress"><label class="row"><input class="switch" id="hotelNavEnabled" type="checkbox">住宿顯示「開啟導航」</label><label>導航地圖</label><select id="mapProvider"><option value="amap">高德地圖</option><option value="google">Google 地圖</option></select><label>首頁大圖</label><label class="pick" for="heroFile">＋ 選擇首頁圖片</label><input id="heroFile" type="file" accept="image/*" style="display:none"><img id="heroPreview" class="preview"><label>住宿圖片</label><label class="pick" for="hotelFile">＋ 選擇住宿圖片</label><input id="hotelFile" type="file" accept="image/*" style="display:none"><img id="hotelPreview" class="preview"><button class="primary" id="saveSiteBtn">儲存首頁住宿</button></div></section>
 <section id="flights" class="panel"><div class="card"><h2>去程航班</h2><label>去程時間</label><input id="flightOutTime"><label>去程路線</label><input id="flightOutRoute"><label>去程圖片</label><label class="pick" for="flightOutFile">＋ 選擇去程圖片</label><input id="flightOutFile" type="file" accept="image/*" style="display:none"><img id="flightOutPreview" class="preview"></div><div class="card"><h2>回程航班</h2><label>回程時間</label><input id="flightBackTime"><label>回程路線</label><input id="flightBackRoute"><label>回程圖片</label><label class="pick" for="flightBackFile">＋ 選擇回程圖片</label><input id="flightBackFile" type="file" accept="image/*" style="display:none"><img id="flightBackPreview" class="preview"><button class="primary" id="saveFlightsBtn">儲存航班資料</button></div></section>
 <section id="days" class="panel"><div class="card"><h2>新增日期</h2><label>用日曆選日期</label><input id="newDayDate" type="date"><label>這一天標題</label><input id="newDayTitle"><button class="primary" id="addDayBtn">＋ 新增這一天</button></div><div class="card"><h2>每日行程</h2><label>選擇日期</label><select id="daySelect"></select><div id="emptyDaysNotice" class="warn" style="display:none">目前還沒有日期。</div><div class="grid2"><div><label>日期</label><input id="dayDate" type="date"></div><div><label>每日標題</label><input id="dayTitleInput"></div></div><div class="row"><button class="primary" id="saveDayMetaBtn">儲存日期標題</button><button class="danger" id="deleteDayBtn">刪除這一天</button><button class="soft" id="newItemBtn">＋ 新增行程</button></div></div><div id="editor" class="card" style="display:none"><h2>行程內容</h2><input type="hidden" id="editIndex"><div class="grid2"><div><label>時間</label><input id="time"></div><div><label>分類</label><input id="tag"></div></div><label>名稱</label><input id="name"><label>地址／導航搜尋字</label><input id="address"><label class="row"><input class="switch" id="navEnabled" type="checkbox">這個地點顯示「開啟導航」</label><label>圖片</label><label class="pick" for="imageFile">＋ 選擇行程圖片</label><input id="imageFile" type="file" accept="image/*" style="display:none"><img id="preview" class="preview"><input type="hidden" id="image"><label>更多行程圖片</label><label class="pick" for="imageMoreFile">＋ 新增更多圖片</label><input id="imageMoreFile" type="file" accept="image/*" multiple style="display:none"><div id="imageGalleryPreview" class="galleryPreview"></div><input type="hidden" id="imageUrls"><label>這個行程推薦美食</label><select id="itemFoodSelect"><option value="">不指定美食</option></select><label>故事與特色</label><textarea id="story"></textarea><label>推薦吃什麼</label><textarea id="food"></textarea><div class="row"><button class="primary" id="saveItemBtn">儲存行程</button><button class="soft" id="cancelEditBtn">取消</button></div></div><div id="list"></div></section>
@@ -61,7 +61,64 @@ async function deleteTrip(id){
   await loadTrips();
   alert("已刪除旅程");
 }
-async function createTrip(){const name=$("newTripName").value.trim();if(!name)return alert("請輸入旅程名稱");const slug=$("newTripSlug").value.trim()||name.toLowerCase().replace(/\s+/g,"-")+"-"+Date.now();const r=await sb.from("trips").insert({name,slug,destination:$("newTripDestination").value,start_date:$("newTripStart").value||null,end_date:$("newTripEnd").value||null,status:"draft",public_enabled:false,access_code:$("newTripCode").value.trim()||slug,open_at:$("newTripOpenAt").value||null,close_at:$("newTripCloseAt").value||null}).select().single();if(r.error)throw r.error;await sb.from("trip_site_settings").insert({trip_id:r.data.id,title:name,dates:(($("newTripStart").value||"")+"－"+($("newTripEnd").value||"")),map_provider:"amap",hotel_nav_enabled:true});$("newTripName").value="";$("newTripSlug").value="";$("newTripCode").value="";$("newTripOpenAt").value="";$("newTripCloseAt").value="";await loadTrips();await selectTrip(r.data.id);alert("新旅程已建立")}
+async function createTrip(){
+  try{
+    const name=$("newTripName").value.trim();
+    if(!name)return alert("請輸入旅程名稱");
+
+    let slug=$("newTripSlug").value.trim();
+    if(!slug){
+      slug = name.toLowerCase().replace(/\s+/g,"-") + "-" + Date.now();
+    }
+    // 旅程代號只保留英文、數字、-、_
+    slug = slug.replace(/[^a-zA-Z0-9_-]/g,"-");
+    if(!slug)return alert("旅程代號不可為空，請輸入英文或數字");
+
+    const accessCode = $("newTripCode").value.trim() || slug;
+
+    const insertPayload={
+      name:name,
+      slug:slug,
+      destination:$("newTripDestination").value || "",
+      start_date:$("newTripStart").value || null,
+      end_date:$("newTripEnd").value || null,
+      status:"draft",
+      public_enabled:false,
+      access_code:accessCode,
+      open_at:$("newTripOpenAt").value ? new Date($("newTripOpenAt").value).toISOString() : null,
+      close_at:$("newTripCloseAt").value ? new Date($("newTripCloseAt").value).toISOString() : null
+    };
+
+    const r=await sb.from("trips").insert(insertPayload).select().single();
+    if(r.error) throw r.error;
+
+    const datesText=(($("newTripStart").value||"") + "－" + ($("newTripEnd").value||""));
+    const site=await sb.from("trip_site_settings").insert({
+      trip_id:r.data.id,
+      title:name,
+      dates:datesText,
+      map_provider:"amap",
+      hotel_nav_enabled:true
+    });
+    if(site.error) throw site.error;
+
+    $("newTripName").value="";
+    $("newTripSlug").value="";
+    $("newTripDestination").value="";
+    $("newTripCode").value="";
+    $("newTripStart").value="";
+    $("newTripEnd").value="";
+    $("newTripOpenAt").value="";
+    $("newTripCloseAt").value="";
+
+    await loadTrips();
+    await selectTrip(r.data.id);
+    alert("新旅程已建立。旅程密碼是：" + accessCode);
+  }catch(e){
+    console.error("createTrip failed", e);
+    alert("建立旅程失敗：" + (e.message || JSON.stringify(e)) + "\n\n如果錯誤提到 access_code / open_at / close_at，請先執行 supabase_trips_v12_update.sql。");
+  }
+}
 async function setTripStatus(id,status,public_enabled){const r=await sb.from("trips").update({status,public_enabled}).eq("id",id);if(r.error)throw r.error;await loadTrips();if(CURRENT_TRIP&&CURRENT_TRIP.id===id){CURRENT_TRIP={...CURRENT_TRIP,status,public_enabled};$("currentTripTitle").textContent=`目前管理：${CURRENT_TRIP.name}（${status}／${public_enabled?'公開':'關閉'}）`;}}
 async function publishTrip(){
   if(!CURRENT_TRIP)return alert("請先選擇旅程");
