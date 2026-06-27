@@ -13,7 +13,7 @@ button,.btn{border:0;border-radius:11px;padding:10px 12px;font-weight:700;cursor
 .sectionTitle{font-size:21px;margin:14px 3px 10px}.foodGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.food img{height:140px}.food .title{font-size:17px}
 .topCards{display:grid;gap:12px}.flightCard img{height:auto}.hotel{font-size:14px;color:var(--muted);line-height:1.6}
 nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:9}
-.navin{max-width:860px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr)}.tab{border:0;background:none;padding:8px;color:var(--muted);font-weight:700}.tab.active{color:var(--p)}
+.navin{max-width:860px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr)}.tab{border:0;background:none;padding:8px;color:var(--muted);font-weight:700}.tab.active{color:var(--p)}
 .screen{display:none}.screen.active{display:block}.empty{padding:18px;color:var(--muted)}
 .modalMask{position:fixed;inset:0;background:rgba(15,23,42,.58);z-index:99;display:none;align-items:flex-end;justify-content:center}
 .modalMask.active{display:flex}.modal{background:white;width:min(860px,100%);max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.22)}
@@ -27,18 +27,18 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .panel{display:none}.panel.active{display:block}.thumb{width:90px;height:62px;object-fit:cover;border-radius:8px;background:#edf2f7}.listrow{display:flex;gap:12px;align-items:center;justify-content:space-between}.listleft{display:flex;gap:12px;align-items:center}.switch{width:auto;margin-right:6px}.warn{background:#fff7ed;color:#9a3412;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
-.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}</style></head><body>
-<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="bulletin">📢<br>公佈欄</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+.gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}.feedbackBox{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin-top:12px}.stars{display:flex;gap:6px;margin:8px 0}.starBtn{font-size:22px;border:0;background:#eef7f6;color:#667085;border-radius:8px;padding:6px 9px}.starBtn.active{background:#0f766e;color:white}.logoutBar{position:fixed;top:8px;right:8px;z-index:20}.downloadBox{padding:14px}.smallNote{font-size:12px;color:#667085}.likeRow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.likeRow button.active{outline:2px solid #0f766e}</style></head><body><div class="logoutBar" id="logoutBar" style="display:none"><button class="gray smallBtn" id="logoutBtn">登出</button></div>
+<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section><section id="download" class="screen"><h2 class="sectionTitle">下載旅程紀錄</h2><div class="card"><div class="downloadBox"><p class="muted">下載你這趟旅程的完成紀錄、吃過什麼、心得與不喜歡的地方。</p><button class="primary" id="downloadTripBtn">下載旅程紀錄</button><div class="smallNote">這是使用者自己的紀錄，管理員後台不會顯示。</div></div></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="bulletin">📢<br>公佈欄</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button><button class="tab" data-screen="download">⬇️<br>下載</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL = "https://ovprxrcvclejwjytvfra.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cHJ4cmN2Y2xlandqeXR2ZnJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDUyODksImV4cCI6MjA5ODEyMTI4OX0.i72mbwna6qTR0nvDybeVqZmBgtpC_BAYaEwHaqjWKzg";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-let DATA = {trip:{},days:[],foods:[],announcements:[],polls:[]};
+let DATA = {trip:{},days:[],foods:[],announcements:[],polls:[],feedback:[]};
 let selectedDay = 0;
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s||"").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 function attr(s){return esc(s)}
 function getSlug(){return new URLSearchParams(location.search).get("trip")||""}
-function getAccessCode(){return sessionStorage.getItem("trip_access_code")||new URLSearchParams(location.search).get("code")||""}
+function getAccessCode(){return localStorage.getItem("trip_access_code")||new URLSearchParams(location.search).get("code")||""}
 async function loadCloudData(){
   const slug=getSlug();
   const code=getAccessCode();
@@ -68,7 +68,7 @@ async function loadCloudData(){
   const siteRes=await sb.from("trip_site_settings").select("*").eq("trip_id",trip.id).maybeSingle();
   const daysRes=await sb.from("trip_days").select("*").eq("trip_id",trip.id).order("date").order("day_order");
   const itemsRes=await sb.from("trip_itinerary_items").select("*").eq("trip_id",trip.id).order("item_order");
-  const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",trip.id).order("food_order");const annRes=await sb.from("trip_announcements").select("*").eq("trip_id",trip.id).eq("is_active",true).order("is_pinned",{ascending:false}).order("created_at",{ascending:false});const pollRes=await sb.from("trip_polls").select("*, trip_poll_options(*), trip_poll_votes(*)").eq("trip_id",trip.id).eq("is_active",true).order("created_at",{ascending:false});
+  const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",trip.id).order("food_order");const feedbackRes=await sb.from("trip_user_feedback").select("*").eq("trip_id",trip.id).eq("voter_key",getVoterKey());const annRes=await sb.from("trip_announcements").select("*").eq("trip_id",trip.id).eq("is_active",true).order("is_pinned",{ascending:false}).order("created_at",{ascending:false});const pollRes=await sb.from("trip_polls").select("*, trip_poll_options(*), trip_poll_votes(*)").eq("trip_id",trip.id).eq("is_active",true).order("created_at",{ascending:false});
   const site=siteRes.data||{};
   const days=(daysRes.data||[]).map(d=>({...d,items:[]}));
   const byId=Object.fromEntries(days.map(d=>[d.id,d]));
@@ -76,11 +76,11 @@ async function loadCloudData(){
   DATA={
     trip:{id:trip.id,slug:trip.slug,name:trip.name,status:trip.status,public_enabled:trip.public_enabled,title:site.title||trip.name,dates:site.dates||"",hotel:site.hotel||"",hotelAddress:site.hotel_address||"",hotelNavEnabled:site.hotel_nav_enabled!==false,mapProvider:site.map_provider||"amap",hero:site.hero_image||"",hotelImage:site.hotel_image||"",flightOut:{time:site.flight_out_time||"",route:site.flight_out_route||"",image:site.flight_out_image||""},flightBack:{time:site.flight_back_time||"",route:site.flight_back_route||"",image:site.flight_back_image||""}},
     days:days.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,imageUrls:x.image_urls||[],story:x.story,food:x.food,foodId:x.food_id,navEnabled:x.nav_enabled,completed:x.completed}))})),
-    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,imageUrls:x.image_urls||[],story:x.story,why:x.why,taste:x.taste,when:x.when_text})),announcements:(annRes.data||[]),polls:(pollRes.data||[])
+    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,imageUrls:x.image_urls||[],story:x.story,why:x.why,taste:x.taste,when:x.when_text})),feedback:(feedbackRes.data||[]),announcements:(annRes.data||[]),polls:(pollRes.data||[])
   };
 }
 function renderAll(){ $("hero").style.backgroundImage=DATA.trip.hero?`url('${DATA.trip.hero}')`:""; $("tripTitle").textContent=DATA.trip.title||"我的旅行"; $("tripDates").textContent=DATA.trip.dates||""; renderHotelCard(); renderAnnouncements(); renderPolls(); renderDays(); renderFoods(); renderInfo(); }
-function renderHotelCard(){ const wrap=$("hotelCard"); wrap.innerHTML=`${DATA.trip.hotelImage?`<img src="${DATA.trip.hotelImage}" alt="住宿圖片">`:""}<div class="content"><b>住宿</b><div id="hotel" class="hotel">${esc(DATA.trip.hotel||"")}</div><div id="hotelActions" class="actions"></div></div>`; if(DATA.trip.hotelNavEnabled!==false&&DATA.trip.hotel){ $("hotelActions").innerHTML='<button class="btn primary" id="hotelNavBtn">開啟導航</button>';$("hotelNavBtn").onclick=()=>openNav(DATA.trip.hotelAddress||DATA.trip.hotel); } }
+function renderHotelCard(){ const wrap=$("hotelCard"); wrap.innerHTML=`${DATA.trip.hotelImage?`<img src="${DATA.trip.hotelImage}" alt="住宿圖片">`:""}<div class="content"><b>住宿</b><div id="hotel" class="hotel">${esc(DATA.trip.hotel||"")}</div><div id="hotelActions" class="actions"></div>${feedbackHtml("hotel", DATA.trip.id||"hotel")}</div>`; if(DATA.trip.hotelNavEnabled!==false&&DATA.trip.hotel){ $("hotelActions").innerHTML='<button class="btn primary" id="hotelNavBtn">開啟導航</button>';$("hotelNavBtn").onclick=()=>openNav(DATA.trip.hotelAddress||DATA.trip.hotel); } }
 
 function getVoterKey(){
   let key=localStorage.getItem("trip_voter_key");
@@ -114,7 +114,7 @@ function renderPolls(){
 async function votePoll(pollId, optionId){
   const r=await sb.from("trip_poll_votes").insert({poll_id:pollId,option_id:optionId,voter_key:getVoterKey()});
   if(r.error){alert("投票失敗，可能你已經投過票。");return}
-  await loadCloudData(); renderAll();
+  await loadCloudData(); renderAll();bindFeedbackBox();
 }
 
 function renderDays(){ $("daybar").innerHTML=DATA.days.map((d,i)=>`<button class="day ${i===selectedDay?'active':''}" data-day="${i}">${esc(d.date)}<br><small>${esc(d.title)}</small></button>`).join(""); document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{selectedDay=Number(b.dataset.day);renderDays()}); const d=DATA.days[selectedDay]; if(!d){$("dayTitle").textContent="";$("planList").innerHTML='<div class="card"><div class="empty">目前尚未新增行程，或這趟旅程未開放觀看。</div></div>';return;} $("dayTitle").textContent=`${d.date}｜${d.title||"未命名行程"}`; $("planList").innerHTML=d.items.length?d.items.map((x,i)=>`<article class="card">${x.image?`<img src="${x.image}" alt="${attr(x.name)}">`:""}<div class="content"><div class="time">${esc(x.time)}</div><h3 class="title">${esc(x.name)}</h3><span class="badge">${esc(x.tag)}</span><div class="brief">${esc(makeBrief(x))}</div><div class="actions"><button class="btn soft introBtn" data-index="${i}">查看介紹</button>${x.navEnabled===false?"":`<button class="btn primary navBtn" data-address="${attr(x.address)}">開啟導航</button>`}</div></div></article>`).join(""):'<div class="card"><div class="empty">這一天尚未新增行程。</div></div>'; document.querySelectorAll(".introBtn").forEach(b=>b.onclick=()=>openPlace(selectedDay,Number(b.dataset.index))); document.querySelectorAll(".navBtn").forEach(b=>b.onclick=()=>openNav(b.dataset.address)); }
@@ -125,9 +125,77 @@ function getItemImages(x){const arr=[];if(x.image)arr.push(x.image);(x.imageUrls
 function getFoodImages(x){const arr=[];if(x.image)arr.push(x.image);(x.imageUrls||[]).forEach(u=>{if(u&&!arr.includes(u))arr.push(u)});return arr}
 function getFoodById(id){return DATA.foods.find(f=>String(f.id)===String(id))}
 function galleryHtml(images){return images.length>1?`<div class="gallery">${images.map(u=>`<img src="${u}">`).join("")}</div>`:""}
+
+function getFeedback(targetType,targetId){
+  return (DATA.feedback||[]).find(f=>f.target_type===targetType && String(f.target_id)===String(targetId)) || {};
+}
+function feedbackHtml(targetType,targetId){
+  const f=getFeedback(targetType,targetId);
+  const rating=f.rating||0;
+  return `<div class="feedbackBox" data-fb-type="${targetType}" data-fb-id="${targetId}">
+    <b>我的心得與星星</b>
+    <div class="stars">${[1,2,3,4,5].map(n=>`<button class="starBtn ${rating>=n?'active':''}" data-star="${n}">★</button>`).join("")}</div>
+    <div class="likeRow">
+      <button class="soft smallBtn likeBtn ${f.liked?'active':''}" data-like="true">喜歡</button>
+      <button class="danger smallBtn dislikeBtn ${f.disliked?'active':''}" data-dislike="true">不喜歡</button>
+    </div>
+    <textarea class="fbNote textareaSmall" placeholder="寫下你的心得，只有你下載紀錄時會用到">${esc(f.note||"")}</textarea>
+    <button class="primary smallBtn saveFbBtn">儲存心得</button>
+  </div>`;
+}
+function bindFeedbackBox(){
+  document.querySelectorAll(".feedbackBox").forEach(box=>{
+    let selected=Number((DATA.feedback||[]).find(f=>f.target_type===box.dataset.fbType && String(f.target_id)===String(box.dataset.fbId))?.rating||0);
+    box.querySelectorAll(".starBtn").forEach(btn=>{
+      btn.onclick=()=>{selected=Number(btn.dataset.star);box.querySelectorAll(".starBtn").forEach(b=>b.classList.toggle("active",Number(b.dataset.star)<=selected));};
+    });
+    let liked=box.querySelector(".likeBtn")?.classList.contains("active")||false;
+    let disliked=box.querySelector(".dislikeBtn")?.classList.contains("active")||false;
+    box.querySelector(".likeBtn").onclick=()=>{liked=!liked;if(liked)disliked=false;box.querySelector(".likeBtn").classList.toggle("active",liked);box.querySelector(".dislikeBtn").classList.toggle("active",disliked);};
+    box.querySelector(".dislikeBtn").onclick=()=>{disliked=!disliked;if(disliked)liked=false;box.querySelector(".dislikeBtn").classList.toggle("active",disliked);box.querySelector(".likeBtn").classList.toggle("active",liked);};
+    box.querySelector(".saveFbBtn").onclick=()=>saveFeedback(box.dataset.fbType,box.dataset.fbId,selected,box.querySelector(".fbNote").value,liked,disliked);
+  });
+}
+async function saveFeedback(targetType,targetId,rating,note,liked,disliked){
+  const payload={trip_id:DATA.trip.id,voter_key:getVoterKey(),target_type:targetType,target_id:String(targetId),rating:rating||null,note:note||"",liked:!!liked,disliked:!!disliked,updated_at:new Date().toISOString()};
+  const r=await sb.from("trip_user_feedback").upsert(payload,{onConflict:"trip_id,voter_key,target_type,target_id"});
+  if(r.error){alert("儲存心得失敗："+r.error.message);return}
+  await loadCloudData();
+  alert("心得已儲存。");
+}
+function logoutTrip(){
+  localStorage.removeItem("trip_access_code");
+  location.reload();
+}
+function downloadTripRecord(){
+  const lines=[];
+  lines.push(`${DATA.trip.title||DATA.trip.name||"我的旅行"} 旅程紀錄`);
+  lines.push(`日期：${DATA.trip.dates||""}`);
+  lines.push("");
+  lines.push("【完成了什麼】");
+  DATA.days.forEach(d=>{
+    lines.push(`- ${d.date} ${d.title||""}`);
+    d.items.forEach(it=>{ if(it.completed) lines.push(`  ✓ ${it.time||""} ${it.name||""}`); });
+  });
+  lines.push("");
+  lines.push("【吃了什麼】");
+  DATA.foods.forEach(f=>{
+    const fb=getFeedback("food",f.id);
+    lines.push(`- ${f.name||""}${fb.rating?`｜${fb.rating}星`:""}${fb.note?`｜心得：${fb.note}`:""}`);
+  });
+  DATA.days.forEach(d=>d.items.forEach(it=>{ if(it.food) lines.push(`- ${d.date} ${it.name}：${it.food}`); }));
+  lines.push("");
+  lines.push("【不喜歡 / 討厭的地方】");
+  (DATA.feedback||[]).filter(f=>f.disliked).forEach(f=>lines.push(`- ${f.target_type} ${f.target_id}｜${f.rating||""}星｜${f.note||""}`));
+  lines.push("");
+  lines.push("【全部心得】");
+  (DATA.feedback||[]).forEach(f=>lines.push(`- ${f.target_type} ${f.target_id}｜${f.rating||""}星｜${f.liked?"喜歡":""}${f.disliked?"不喜歡":""}｜${f.note||""}`));
+  const blob=new Blob([lines.join("\\n")],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(DATA.trip.title||"旅程紀錄")+".txt";a.click();URL.revokeObjectURL(a.href);
+}
 function openPlace(dayIndex,itemIndex){ const x=DATA.days[dayIndex].items[itemIndex]; const imgs=getItemImages(x);$("modalImg").src=imgs[0]||DATA.trip.hero||""; $("modalTime").textContent=x.time||""; $("modalTitle").textContent=x.name||""; $("modalTag").textContent=x.tag||""; $("modalStory").innerHTML=`<b>故事與特色</b>${galleryHtml(imgs)}<p>${esc(x.story||"尚未填寫介紹。")}</p>`; const linkedFood=getFoodById(x.foodId);
-if(linkedFood){$("modalFood").innerHTML=`<b>推薦美食</b><div class="miniFood">${linkedFood.image?`<img src="${linkedFood.image}">`:""}<div><b>${esc(linkedFood.name)}</b><p>${esc(linkedFood.story||linkedFood.why||x.food||"")}</p></div></div>`;}else{$("modalFood").innerHTML=x.food?`<b>推薦吃什麼</b><p>${esc(x.food)}</p>`:"";} $("modalActions").innerHTML=""; if(x.navEnabled!==false){const btn=document.createElement("button");btn.className="btn primary";btn.textContent="開啟導航";btn.onclick=()=>openNav(x.address);$("modalActions").appendChild(btn)} showModal(); }
-function openFood(i){ const x=DATA.foods[i]; const imgs=getFoodImages(x); $("modalImg").src=imgs[0]||DATA.trip.hero||""; $("modalTime").textContent=x.when||""; $("modalTitle").textContent=x.name||""; $("modalTag").textContent=x.taste||""; $("modalStory").innerHTML=`<b>美食特色</b>${galleryHtml(imgs)}<p>${esc(x.story||x.why||"尚未填寫介紹。")}</p>`; $("modalFood").innerHTML=`<b>適合時間</b><p>${esc(x.when||"")}</p>`; $("modalActions").innerHTML=""; showModal(); }
+if(linkedFood){$("modalFood").innerHTML=`<b>推薦美食</b><div class="miniFood">${linkedFood.image?`<img src="${linkedFood.image}">`:""}<div><b>${esc(linkedFood.name)}</b><p>${esc(linkedFood.story||linkedFood.why||x.food||"")}</p></div></div>`;}else{$("modalFood").innerHTML=x.food?`<b>推薦吃什麼</b><p>${esc(x.food)}</p>`:"";} $("modalActions").innerHTML=""; if(x.navEnabled!==false){const btn=document.createElement("button");btn.className="btn primary";btn.textContent="開啟導航";btn.onclick=()=>openNav(x.address);$("modalActions").appendChild(btn)} $("modalFood").innerHTML += feedbackHtml("itinerary", x.id); showModal(); bindFeedbackBox(); }
+function openFood(i){ const x=DATA.foods[i]; const imgs=getFoodImages(x); $("modalImg").src=imgs[0]||DATA.trip.hero||""; $("modalTime").textContent=x.when||""; $("modalTitle").textContent=x.name||""; $("modalTag").textContent=x.taste||""; $("modalStory").innerHTML=`<b>美食特色</b>${galleryHtml(imgs)}<p>${esc(x.story||x.why||"尚未填寫介紹。")}</p>`; $("modalFood").innerHTML=`<b>適合時間</b><p>${esc(x.when||"")}</p>`; $("modalActions").innerHTML=""; $("modalFood").innerHTML += feedbackHtml("food", x.id); showModal(); bindFeedbackBox(); }
 function showModal(){$("modalMask").classList.add("active");document.body.style.overflow="hidden"}
 function hideModal(){$("modalMask").classList.remove("active");document.body.style.overflow=""}
 function openNav(query){ const q=encodeURIComponent(query||""); if(!q)return; const provider=(DATA.trip&&DATA.trip.mapProvider)||"amap"; const url=provider==="google"?"https://www.google.com/maps/search/?api=1&query="+q:"https://uri.amap.com/search?keyword="+q; window.open(url,"_blank"); }
@@ -135,22 +203,22 @@ function bindTabs(){ document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=
 async function openByCode(){
   const code=$("accessCodeInput").value.trim();
   if(!code){$("loginMsg").style.display="block";$("loginMsg").textContent="請輸入旅程密碼";return}
-  sessionStorage.setItem("trip_access_code",code);
+  localStorage.setItem("trip_access_code",code);
   await loadAndRender();
 }
 async function loadAndRender(){
   try{
     await loadCloudData();
     if(DATA.trip.blocked){
-      $("loginBox").style.display="block";$("app").style.display="none";
+      $("loginBox").style.display="block";$("app").style.display="none";if($("logoutBar"))$("logoutBar").style.display="none";
       $("loginMsg").style.display="block";$("loginMsg").textContent=DATA.trip.hotel||"無法開啟旅程";
       return;
     }
-    $("loginBox").style.display="none";$("app").style.display="block";
+    $("loginBox").style.display="none";$("app").style.display="block";if($("logoutBar"))$("logoutBar").style.display="block";
     renderAll();
   }catch(e){
     console.error(e);
-    $("loginBox").style.display="block";$("app").style.display="none";
+    $("loginBox").style.display="block";$("app").style.display="none";if($("logoutBar"))$("logoutBar").style.display="none";
     $("loginMsg").style.display="block";$("loginMsg").textContent="雲端讀取失敗：" + (e.message||JSON.stringify(e));
   }
 }
@@ -158,7 +226,7 @@ async function init(){
   bindTabs();
   $("modalMask").addEventListener("click",e=>{if(e.target.id==="modalMask")hideModal()});
   $("closeBtn").onclick=hideModal;
-  $("accessBtn").onclick=openByCode;
+  $("accessBtn").onclick=openByCode;if($("logoutBtn"))$("logoutBtn").onclick=logoutTrip;if($("downloadTripBtn"))$("downloadTripBtn").onclick=downloadTripRecord;
   $("accessCodeInput").addEventListener("keydown",e=>{if(e.key==="Enter")openByCode()});
   if(getSlug() || getAccessCode()) await loadAndRender();
 }
