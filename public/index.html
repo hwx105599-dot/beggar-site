@@ -28,7 +28,7 @@ label{font-size:13px;font-weight:800;color:#344054}.row{display:flex;gap:8px;fle
 .success{background:#ecfdf3;color:#067647;padding:10px;border-radius:12px;font-size:13px;margin:8px 0}.status{font-size:12px;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#344054}
 @media(max-width:700px){.tabs{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.listrow{align-items:flex-start;display:block}.listleft{align-items:flex-start}.thumb{width:72px;height:56px}.foodGrid{grid-template-columns:1fr}}
 .gallery{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.gallery img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.miniFood{display:flex;gap:10px;align-items:center;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}.miniFood img{width:80px;height:60px;object-fit:cover;border-radius:8px}.galleryPreview{display:flex;gap:8px;overflow-x:auto;margin:8px 0}.galleryPreview img{width:110px;height:78px;object-fit:cover;border-radius:10px;background:#edf2f7}.loginBox{max-width:520px;margin:24px auto}.loginBox input{font-size:18px}.blocked{padding:28px;text-align:center}.codeText{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;padding:4px 8px;border-radius:8px}.timeSmall{font-size:12px;color:#667085}.noticeCard{border-left:5px solid #0f766e}.pollOption{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0;background:#fff}.pollBar{height:8px;background:#e7f8f5;border-radius:999px;overflow:hidden;margin-top:6px}.pollBar span{display:block;height:100%;background:#0f766e}.smallBtn{padding:7px 10px;font-size:12px}.adminListTitle{font-weight:800;margin-bottom:4px}.announcementBody{white-space:pre-wrap}.textareaSmall{min-height:56px}.feedbackBox{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin-top:12px}.stars{display:flex;gap:6px;margin:8px 0}.starBtn{font-size:22px;border:0;background:#eef7f6;color:#667085;border-radius:8px;padding:6px 9px}.starBtn.active{background:#0f766e;color:white}.logoutBar{position:fixed;top:8px;right:8px;z-index:20}.downloadBox{padding:14px}.smallNote{font-size:12px;color:#667085}.likeRow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.likeRow button.active{outline:2px solid #0f766e}</style></head><body><div class="logoutBar" id="logoutBar" style="display:none"><button class="gray smallBtn" id="logoutBtn">登出</button></div>
-<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section><section id="download" class="screen"><h2 class="sectionTitle">下載可瀏覽電子檔</h2><div class="card"><div class="downloadBox"><p class="muted">下載一個只讀版 HTML 電子檔，可以打開點選查看，但不能修改。</p><button class="primary" id="downloadTripBtn">下載可瀏覽電子檔</button><div class="smallNote">這是使用者自己的紀錄，管理員後台不會顯示。</div></div></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="bulletin">📢<br>公佈欄</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button><button class="tab" data-screen="download">⬇️<br>下載</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+<div id="loginBox" class="loginBox card"><div class="content"><h2>輸入旅程密碼</h2><p class="muted">請輸入管理員提供的旅程密碼。也可以輸入旅程代號測試。</p><input id="accessCodeInput" placeholder="旅程密碼"><button class="primary" id="accessBtn">開啟旅程</button><div id="loginMsg" class="warn" style="display:none"></div></div></div><div class="app" id="app" style="display:none"><div id="hero" class="hero"><div class="heroText"><h1 id="tripTitle">載入中...</h1><div id="tripDates"></div></div></div><main><section id="plan" class="screen active"><div id="hotelCard" class="card"></div><div id="daybar" class="daybar"></div><div id="dayTitle" class="sectionTitle"></div><div id="planList"></div></section><section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section><section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid" class="foodGrid"></div></section><section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList" class="topCards"></div></section><section id="download" class="screen"><h2 class="sectionTitle">下載可瀏覽電子檔</h2><div class="card"><div class="downloadBox"><p class="muted">下載一個只讀版 HTML 電子檔，可以打開點選查看，但不能修改。</p><button class="primary" id="downloadTripBtn">下載可瀏覽電子檔</button><div class="smallNote">這是使用者自己的紀錄，管理員後台不會顯示。</div></div></div></section></main><nav><div class="navin"><button class="tab active" data-screen="plan">🗓️<br>行程</button><button class="tab" data-screen="bulletin">📢<br>公佈欄</button><button class="tab" data-screen="food">🍜<br>美食</button><button class="tab" data-screen="info">✈️<br>資料</button><button class="tab" data-screen="download">⬇️<br>下載</button></div></nav></div><div id="modalMask" class="modalMask"><div class="modal"><img id="modalImg" src=""><div class="modalContent"><div class="modalHeader"><div><div id="modalTime" class="time"></div><h2 id="modalTitle" class="title"></h2><span id="modalTag" class="badge"></span></div><button id="closeBtn" class="close">✕</button></div><div id="modalStory" class="info"></div><div id="modalFood" class="info"></div><div id="modalActions" class="actions"></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL = "https://ovprxrcvclejwjytvfra.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cHJ4cmN2Y2xlandqeXR2ZnJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDUyODksImV4cCI6MjA5ODEyMTI4OX0.i72mbwna6qTR0nvDybeVqZmBgtpC_BAYaEwHaqjWKzg";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -43,40 +43,73 @@ async function loadCloudData(){
   const slug=getSlug();
   const code=getAccessCode();
   let tripRes;
+
   if(slug){
     tripRes=await sb.from("trips").select("*").eq("slug",slug).maybeSingle();
   }else{
     if(!code){
-      DATA={trip:{title:"",dates:"",hotel:""},days:[],foods:[]};
+      DATA={trip:{title:"",dates:"",hotel:""},days:[],foods:[],feedback:[]};
       return;
     }
+
+    // 先用旅程密碼找，找不到再用旅程代號找
     tripRes=await sb.from("trips").select("*").eq("access_code",code).maybeSingle();
+    if(!tripRes.error && !tripRes.data){
+      tripRes=await sb.from("trips").select("*").eq("slug",code).maybeSingle();
+    }
   }
+
   if(tripRes.error) throw tripRes.error;
   const trip=tripRes.data;
-  if(!trip){DATA={trip:{title:"找不到旅程",dates:"",hotel:"密碼錯誤或旅程不存在。",blocked:true},days:[],foods:[]};return}
+
+  if(!trip){
+    DATA={trip:{title:"找不到旅程",dates:"",hotel:"找不到這個旅程。請確認密碼或旅程代號是否正確。",blocked:true},days:[],foods:[],feedback:[]};
+    return;
+  }
+
   const now=new Date();
-  if(!trip.public_enabled || trip.status==="closed" || trip.status==="ended"){
-    DATA={trip:{title:trip.name||"旅程未開放",dates:"",hotel:"這趟旅程目前未開放觀看。",blocked:true},days:[],foods:[]};return;
+
+  if(trip.status==="closed"){
+    DATA={trip:{title:trip.name||"旅程已關閉",dates:"",hotel:"這趟旅程目前已關閉公開觀看。",blocked:true},days:[],foods:[],feedback:[]};
+    return;
   }
+
+  if(trip.status==="ended"){
+    DATA={trip:{title:trip.name||"旅程已結束",dates:"",hotel:"這趟旅程已結束，暫不開放觀看。",blocked:true},days:[],foods:[],feedback:[]};
+    return;
+  }
+
+  if(!trip.public_enabled){
+    DATA={trip:{title:trip.name||"旅程未公開",dates:"",hotel:"這趟旅程目前尚未開放觀看。請到後台按「儲存並開放觀看版」或把公開觀看改成公開。",blocked:true},days:[],foods:[],feedback:[]};
+    return;
+  }
+
   if(trip.open_at && now < new Date(trip.open_at)){
-    DATA={trip:{title:trip.name||"尚未開放",dates:"",hotel:"這趟旅程還沒到開放時間。",blocked:true},days:[],foods:[]};return;
+    DATA={trip:{title:trip.name||"尚未開放",dates:"",hotel:"這趟旅程還沒到開放時間。開放時間：" + trip.open_at,blocked:true},days:[],foods:[],feedback:[]};
+    return;
   }
+
   if(trip.close_at && now > new Date(trip.close_at)){
-    DATA={trip:{title:trip.name||"旅程已結束",dates:"",hotel:"這趟旅程已超過開放時間。",blocked:true},days:[],foods:[]};return;
+    DATA={trip:{title:trip.name||"旅程已過期",dates:"",hotel:"這趟旅程已超過關閉時間。關閉時間：" + trip.close_at,blocked:true},days:[],foods:[],feedback:[]};
+    return;
   }
+
   const siteRes=await sb.from("trip_site_settings").select("*").eq("trip_id",trip.id).maybeSingle();
   const daysRes=await sb.from("trip_days").select("*").eq("trip_id",trip.id).order("date").order("day_order");
   const itemsRes=await sb.from("trip_itinerary_items").select("*").eq("trip_id",trip.id).order("item_order");
-  const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",trip.id).order("food_order");const feedbackRes=await sb.from("trip_user_feedback").select("*").eq("trip_id",trip.id).eq("voter_key",getVoterKey());const annRes=await sb.from("trip_announcements").select("*").eq("trip_id",trip.id).eq("is_active",true).order("is_pinned",{ascending:false}).order("created_at",{ascending:false});const pollRes=await sb.from("trip_polls").select("*, trip_poll_options(*), trip_poll_votes(*)").eq("trip_id",trip.id).eq("is_active",true).order("created_at",{ascending:false});
+  const foodsRes=await sb.from("trip_foods").select("*").eq("trip_id",trip.id).order("food_order");
+  const feedbackRes=await sb.from("trip_user_feedback").select("*").eq("trip_id",trip.id).eq("voter_key",getVoterKey());
+
   const site=siteRes.data||{};
   const days=(daysRes.data||[]).map(d=>({...d,items:[]}));
   const byId=Object.fromEntries(days.map(d=>[d.id,d]));
   (itemsRes.data||[]).forEach(x=>{if(byId[x.day_id])byId[x.day_id].items.push(x)});
+
   DATA={
     trip:{id:trip.id,slug:trip.slug,name:trip.name,status:trip.status,public_enabled:trip.public_enabled,title:site.title||trip.name,dates:site.dates||"",hotel:site.hotel||"",hotelAddress:site.hotel_address||"",hotelNavEnabled:site.hotel_nav_enabled!==false,mapProvider:site.map_provider||"amap",hero:site.hero_image||"",hotelImage:site.hotel_image||"",flightOut:{time:site.flight_out_time||"",route:site.flight_out_route||"",image:site.flight_out_image||""},flightBack:{time:site.flight_back_time||"",route:site.flight_back_route||"",image:site.flight_back_image||""}},
     days:days.map(d=>({id:d.id,date:d.date,title:d.title,items:d.items.map(x=>({id:x.id,time:x.time,name:x.name,address:x.address,tag:x.tag,image:x.image,imageUrls:x.image_urls||[],story:x.story,food:x.food,foodId:x.food_id,navEnabled:x.nav_enabled,completed:x.completed}))})),
-    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,imageUrls:x.image_urls||[],story:x.story,why:x.why,taste:x.taste,when:x.when_text})),feedback:(feedbackRes.data||[]),announcements:(annRes.data||[]),polls:(pollRes.data||[])
+    foods:(foodsRes.data||[]).map(x=>({id:x.id,name:x.name,image:x.image,imageUrls:x.image_urls||[],story:x.story,why:x.why,taste:x.taste,when:x.when_text})),
+    feedback:(feedbackRes.data||[])
   };
 }
 function renderAll(){ $("hero").style.backgroundImage=DATA.trip.hero?`url('${DATA.trip.hero}')`:""; $("tripTitle").textContent=DATA.trip.title||"我的旅行"; $("tripDates").textContent=DATA.trip.dates||""; renderHotelCard(); renderAnnouncements(); renderPolls(); renderDays(); renderFoods(); renderInfo(); }
@@ -269,10 +302,10 @@ async function openByCode(){
     $("loginMsg").textContent="請輸入旅程密碼";
     return;
   }
+  $("loginMsg").style.display="none";
   localStorage.setItem("trip_access_code",code);
   await loadAndRender();
 }
-
 async function loadAndRender(){
   try{
     await loadCloudData();
