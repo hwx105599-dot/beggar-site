@@ -49,7 +49,7 @@ nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid
     <section id="bulletin" class="screen"><h2 class="sectionTitle">公佈欄</h2><div id="announcementsBox"></div><div id="pollsBox"></div></section>
     <section id="food" class="screen"><h2 class="sectionTitle">美食</h2><div id="foodGrid"></div></section>
     <section id="info" class="screen"><h2 class="sectionTitle">航班與資料</h2><div id="infoList"></div></section>
-    <section id="download" class="screen"><h2 class="sectionTitle">下載 JPG 行程圖檔</h2><div class="card downloadBox"><p class="muted">下載會改成分開下載：主頁圖、住宿圖、機票圖、每天各一張、美食一張。也保留一鍵全部下載。</p><div class="downloadActions"><button class="primary" id="downloadAllBtn">一鍵全部下載</button><button class="soft" id="downloadTripBtn">下載總覽圖</button></div></div><div id="downloadList" class="downloadGrid"></div></section>
+    <section id="download" class="screen"><h2 class="sectionTitle">下載旅程電子書</h2><div class="card downloadBox"><p class="muted">可以下載一本「翻閱式電子書」，全部旅程放在同一個檔案裡，可以像書一樣上一頁、下一頁翻閱。也保留 JPG 分開下載。</p><div class="downloadActions"><button class="primary" id="downloadBookBtn">下載翻閱電子書</button><button class="soft" id="downloadAllBtn">一鍵下載全部 JPG</button><button class="soft" id="downloadTripBtn">下載總覽 JPG</button></div></div><div id="downloadList" class="downloadGrid"></div></section>
   </main>
   <nav><div class="navin">
     <button class="tab active" data-screen="plan">🗓️<br>行程</button>
@@ -151,8 +151,200 @@ function drawFlightCard(title,obj,img){roundedRect(ctx,pad,y,cardWidth,flightCar
  drawFlightCard("去程機票",DATA.trip.flightOut,flightOutImg);drawFlightCard("回程機票",DATA.trip.flightBack,flightBackImg);
 (DATA.days||[]).forEach(d=>{let sectionH=86;const items=(d.items||[]);if(!items.length)sectionH+=56;items.forEach(it=>{const nameLines=lineCountFor(measure,`${it.time||""}  ${it.name||""}`,cardWidth-130,"24px");const addrLines=lineCountFor(measure,it.address||"",cardWidth-130,"20px");sectionH+=32+nameLines*30+(it.address?addrLines*24:0)+18});roundedRect(ctx,pad,y,cardWidth,sectionH,24,"#ffffff");ctx.fillStyle="#1f2937";ctx.font='700 30px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif';ctx.fillText(`${d.date||""}｜${d.title||""}`,pad+22,y+42);let itemY=y+84;if(!items.length){ctx.fillStyle="#667085";ctx.font='400 22px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif';ctx.fillText("這一天沒有行程。",pad+22,itemY)}items.forEach(it=>{roundedRect(ctx,pad+20,itemY-18,72,38,12,"#e7f8f5");ctx.fillStyle="#0f766e";ctx.font='700 20px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif';ctx.fillText(it.time||"--:--",pad+32,itemY+7);const nameH=drawTextBlock(ctx,it.name||"未命名行程",pad+108,itemY+6,cardWidth-130,30,"#1f2937","24px","700");let extraY=itemY+Math.max(nameH,30)+6;if(it.address){const addrH=drawTextBlock(ctx,`地點：${it.address}`,pad+108,extraY,cardWidth-130,24,"#667085","20px","400");extraY+=addrH+4}ctx.strokeStyle="#eaecf0";ctx.beginPath();ctx.moveTo(pad+20,extraY+8);ctx.lineTo(width-pad-20,extraY+8);ctx.stroke();itemY=extraY+26});y+=sectionH+cardGap});
 ctx.fillStyle="#667085";ctx.font='400 18px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif';ctx.fillText(`下載時間：${new Date().toLocaleString("zh-TW")}`,pad,canvas.height-24);downloadCanvas(canvas,(DATA.trip.title||"我的旅行")+"-行程總覽.jpg")}catch(e){console.error(e);alert("下載 JPG 失敗："+(e.message||e))}finally{btn.disabled=false;btn.textContent=oldText}}
+
+async function urlToDataUrl(url){
+  if(!url)return "";
+  try{
+    const res=await fetch(url,{mode:"cors"});
+    if(!res.ok)throw new Error("fetch image failed");
+    const blob=await res.blob();
+    return await new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(reader.result);
+      reader.onerror=()=>reject(reader.error);
+      reader.readAsDataURL(blob);
+    });
+  }catch(e){
+    console.warn("圖片無法內嵌，改用原網址：",url,e);
+    return url;
+  }
+}
+function collectBookUrls(data){
+  const set=new Set();
+  const add=u=>{if(u&&typeof u==="string")set.add(u)};
+  add(data.trip?.hero);
+  add(data.trip?.hotelImage);
+  add(data.trip?.flightOut?.image);
+  add(data.trip?.flightBack?.image);
+  (data.days||[]).forEach(d=>(d.items||[]).forEach(it=>{
+    add(it.image);
+    (it.imageUrls||[]).forEach(add);
+  }));
+  (data.foods||[]).forEach(f=>{
+    add(f.image);
+    (f.imageUrls||[]).forEach(add);
+  });
+  return [...set];
+}
+async function buildBookData(){
+  const data=JSON.parse(JSON.stringify(DATA));
+  const urls=collectBookUrls(data);
+  const cache={};
+  for(let i=0;i<urls.length;i++){
+    const btn=$("downloadBookBtn");
+    if(btn)btn.textContent=`製作電子書中 ${i+1}/${urls.length}`;
+    cache[urls[i]]=await urlToDataUrl(urls[i]);
+  }
+  const repl=u=>cache[u]||u||"";
+  if(data.trip){
+    data.trip.hero=repl(data.trip.hero);
+    data.trip.hotelImage=repl(data.trip.hotelImage);
+    if(data.trip.flightOut)data.trip.flightOut.image=repl(data.trip.flightOut.image);
+    if(data.trip.flightBack)data.trip.flightBack.image=repl(data.trip.flightBack.image);
+  }
+  (data.days||[]).forEach(d=>(d.items||[]).forEach(it=>{
+    it.image=repl(it.image);
+    it.imageUrls=(it.imageUrls||[]).map(repl);
+  }));
+  (data.foods||[]).forEach(f=>{
+    f.image=repl(f.image);
+    f.imageUrls=(f.imageUrls||[]).map(repl);
+  });
+  return data;
+}
+function bookEsc(s){
+  return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function createFlipBookHtml(data){
+  const safeJson=JSON.stringify(data).replace(/</g,"\\u003c");
+  return `<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${bookEsc(data.trip?.title||data.trip?.name||"我的旅行電子書")}</title>
+<style>
+:root{--p:#0f766e;--bg:#eef3f4;--text:#1f2937;--muted:#667085;--line:#e5e7eb}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#e6f4f1,#f7fafc);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;color:var(--text)}
+.bookShell{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px 14px 92px}
+.book{width:min(900px,100%);min-height:78vh;background:white;border-radius:26px;box-shadow:0 18px 50px rgba(15,23,42,.18);overflow:hidden;position:relative}
+.page{display:none;min-height:78vh;padding:28px;animation:fade .18s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:.35;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+.cover{min-height:78vh;color:white;display:flex;flex-direction:column;justify-content:flex-end;background:#0f766e center/cover no-repeat;position:relative}
+.cover:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.72))}
+.coverInner{position:relative;z-index:1;padding:36px}
+.cover h1{font-size:48px;margin:0 0 10px}.cover p{font-size:22px;margin:0;color:#e6fffb}
+h1{font-size:34px;margin:0 0 14px}h2{font-size:28px;margin:0 0 14px}.muted{color:var(--muted);line-height:1.65}.badge{display:inline-block;background:#e7f8f5;color:#0f766e;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:800;margin:2px}
+.card{border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;background:#fff;box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.img{width:100%;max-height:300px;object-fit:cover;border-radius:16px;background:#edf2f7;margin:8px 0 12px}
+.img.contain{object-fit:contain;background:#f8fafc}
+.heroImg{width:100%;height:330px;object-fit:cover;border-radius:18px;background:#edf2f7}
+.timeline{border-left:4px solid #e7f8f5;margin-left:8px;padding-left:18px}
+.item{padding:12px 0;border-bottom:1px solid #eef2f6}.item:last-child{border-bottom:0}
+.time{color:#0f766e;font-weight:900;font-size:18px}.title{font-weight:900;font-size:20px;margin:4px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.controls{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid #d0d5dd;padding:10px;display:flex;align-items:center;justify-content:center;gap:10px;z-index:20}
+button{border:0;border-radius:12px;padding:10px 14px;font-weight:900;cursor:pointer}
+.primary{background:#0f766e;color:white}.soft{background:#eef7f6;color:#0f766e}.gray{background:#f2f4f7;color:#344054}
+#pageInfo{font-weight:900;color:#344054;min-width:90px;text-align:center}
+.small{font-size:13px;color:#667085}
+@media(max-width:700px){.bookShell{padding:8px 8px 84px}.book{min-height:82vh;border-radius:18px}.page{padding:18px;min-height:82vh}.cover{min-height:82vh}.cover h1{font-size:34px}.grid{grid-template-columns:1fr}.heroImg{height:230px}}
+@media print{.controls{display:none}.page{display:block;break-after:page}.bookShell{display:block;padding:0}.book{box-shadow:none;border-radius:0}.page,.cover{min-height:auto}}
+</style>
+</head>
+<body>
+<div class="bookShell">
+  <div class="book" id="book"></div>
+</div>
+<div class="controls">
+  <button class="gray" id="prevBtn">上一頁</button>
+  <div id="pageInfo">1 / 1</div>
+  <button class="primary" id="nextBtn">下一頁</button>
+  <button class="soft" onclick="window.print()">列印/PDF</button>
+</div>
+<script>
+const DATA=${safeJson};
+function esc(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function fit(v){return v==="contain"?"contain":"cover"}
+function firstImage(x){return x?.image || (x?.imageUrls||[])[0] || ""}
+function imgTag(url,fitMode){return url?'<img class="img '+(fit(fitMode)==="contain"?'contain':'')+'" src="'+url+'">':''}
+function itemHtml(it){
+  return '<div class="item">'+
+    (firstImage(it)?imgTag(firstImage(it),it.imageFit):'')+
+    '<div class="time">'+esc(it.time||'')+'</div>'+
+    '<div class="title">'+esc(it.name||'未命名行程')+'</div>'+
+    '<div><span class="badge">'+esc(it.tag||'行程')+'</span></div>'+
+    (it.address?'<div class="muted">地點：'+esc(it.address)+'</div>':'')+
+    (it.food?'<div class="muted">必吃／推薦：'+esc(it.food)+'</div>':'')+
+    (it.story?'<div class="muted">'+esc(it.story)+'</div>':'')+
+  '</div>'
+}
+function foodHtml(f){
+  return '<div class="card">'+imgTag(firstImage(f),f.imageFit)+
+    '<h2>'+esc(f.name||'美食')+'</h2>'+
+    '<div><span class="badge">'+esc(f.taste||'')+'</span><span class="badge">'+esc(f.when||'')+'</span></div>'+
+    '<div class="muted">'+esc(f.story||f.why||'')+'</div></div>'
+}
+function buildPages(){
+  const pages=[];
+  const t=DATA.trip||{};
+  pages.push('<section class="page cover active" style="background-image:url('+ (t.hero||'') +')"><div class="coverInner"><h1>'+esc(t.title||t.name||'我的旅行')+'</h1><p>'+esc(t.dates||'')+'</p><p class="small">旅行電子書｜可翻閱保存</p></div></section>');
+  pages.push('<section class="page"><h1>住宿</h1>'+imgTag(t.hotelImage,t.hotelImageFit)+'<div class="card"><h2>'+esc(t.hotel||'住宿資料')+'</h2><div class="muted">'+esc(t.hotelAddress||'')+'</div></div></section>');
+  pages.push('<section class="page"><h1>機票與交通</h1><div class="grid"><div class="card"><h2>去程</h2>'+imgTag(t.flightOut?.image,t.flightOut?.imageFit)+'<div class="time">'+esc(t.flightOut?.time||'')+'</div><div class="muted">'+esc(t.flightOut?.route||'')+'</div></div><div class="card"><h2>回程</h2>'+imgTag(t.flightBack?.image,t.flightBack?.imageFit)+'<div class="time">'+esc(t.flightBack?.time||'')+'</div><div class="muted">'+esc(t.flightBack?.route||'')+'</div></div></div></section>');
+  (DATA.days||[]).forEach((d,i)=>{
+    pages.push('<section class="page"><h1>第 '+(i+1)+' 天</h1><h2>'+esc(d.date||'')+'｜'+esc(d.title||'')+'</h2><div class="timeline">'+((d.items||[]).length?(d.items||[]).map(itemHtml).join(''):'<div class="muted">這一天沒有行程。</div>')+'</div></section>');
+  });
+  pages.push('<section class="page"><h1>美食</h1>'+((DATA.foods||[]).length?(DATA.foods||[]).map(foodHtml).join(''):'<div class="card muted">目前沒有美食資料。</div>')+'</section>');
+  const disliked=(DATA.feedback||[]).filter(f=>f.disliked);
+  pages.push('<section class="page"><h1>旅行心得</h1><div class="card"><h2>不喜歡／討厭</h2>'+(disliked.length?disliked.map(f=>'<p class="muted">'+esc(f.note||'')+'</p>').join(''):'<p class="muted">沒有不喜歡紀錄。</p>')+'</div><div class="card"><h2>全部心得</h2>'+((DATA.feedback||[]).length?DATA.feedback.map(f=>'<p class="muted">'+esc(f.target_type)+'｜'+esc(f.rating||'')+'星｜'+esc(f.note||'')+'</p>').join(''):'<p class="muted">沒有心得紀錄。</p>')+'</div></section>');
+  return pages;
+}
+let current=0,pages=[];
+function render(){
+  pages=buildPages();
+  document.getElementById('book').innerHTML=pages.join('');
+  showPage(0);
+}
+function showPage(i){
+  const all=[...document.querySelectorAll('.page')];
+  current=Math.max(0,Math.min(i,all.length-1));
+  all.forEach((p,idx)=>p.classList.toggle('active',idx===current));
+  document.getElementById('pageInfo').textContent=(current+1)+' / '+all.length;
+}
+document.getElementById('prevBtn').onclick=()=>showPage(current-1);
+document.getElementById('nextBtn').onclick=()=>showPage(current+1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')showPage(current-1);if(e.key==='ArrowRight')showPage(current+1)});
+render();
+<\/script>
+</body>
+</html>`;
+}
+async function downloadFlipBook(){
+  const btn=$("downloadBookBtn"),old=btn.textContent;
+  btn.disabled=true;
+  btn.textContent="準備電子書...";
+  try{
+    const data=await buildBookData();
+    const html=createFlipBookHtml(data);
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=(DATA.trip.title||DATA.trip.name||"我的旅行")+"-翻閱電子書.html";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }catch(e){
+    console.error(e);
+    alert("下載電子書失敗："+(e.message||e));
+  }finally{
+    btn.disabled=false;
+    btn.textContent=old;
+  }
+}
+
 function bindTabs(){document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(t.dataset.screen).classList.add("active");scrollTo(0,0)})}
-async function init(){bindTabs();$("modalMask").onclick=e=>{if(e.target.id==="modalMask")$("modalMask").classList.remove("active")};$("closeBtn").onclick=()=>$("modalMask").classList.remove("active");$("accessBtn").onclick=openByCode;$("accessCodeInput").onkeydown=e=>{if(e.key==="Enter")openByCode()};$("logoutBtn").onclick=logoutTrip;$("downloadTripBtn").onclick=downloadTripRecord;$("downloadAllBtn").onclick=downloadAllSplit;const code=getCode();if(code){$("accessCodeInput").value=code;await loadAndRender()}}
+async function init(){bindTabs();$("modalMask").onclick=e=>{if(e.target.id==="modalMask")$("modalMask").classList.remove("active")};$("closeBtn").onclick=()=>$("modalMask").classList.remove("active");$("accessBtn").onclick=openByCode;$("accessCodeInput").onkeydown=e=>{if(e.key==="Enter")openByCode()};$("logoutBtn").onclick=logoutTrip;$("downloadTripBtn").onclick=downloadTripRecord;$("downloadAllBtn").onclick=downloadAllSplit;if($("downloadBookBtn"))$("downloadBookBtn").onclick=downloadFlipBook;const code=getCode();if(code){$("accessCodeInput").value=code;await loadAndRender()}}
 init();
 </script>
 

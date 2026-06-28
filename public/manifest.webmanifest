@@ -1,7 +1,7 @@
 {
   "name": "我的旅行",
   "short_name": "我的旅行",
-  "description": "旅行行程、公佈欄、投票、心得與只讀電子檔下載",
+  "description": "旅行行程、公佈欄、投票、心得與翻閱電子書下載",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
